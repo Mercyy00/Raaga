@@ -289,6 +289,46 @@ rm -rf "$APPDIR/usr/lib/pkcs11" "$APPDIR/usr/lib64/pkcs11"
 [ -e "$FALLBACK/libgnutls.so.30" ] || {
   echo "no libgnutls.so.30 in the AppDir at all — did linuxdeploy stop bundling it?"; exit 1; }
 
+# 1f. Close the dependency graph to a fixpoint. bundle_deps_of only walks the NEEDED of libraries it
+#     *copies*; a library linuxdeploy already bundled is skipped by its "already have it" guard, so
+#     that library's own NEEDED never gets followed. libpulse.so.0 arrives that way — linuxdeploy
+#     ships it for libgstpulseaudio.so — and it DT_NEEDs libpipewire-0.3.so.0, which linuxdeploy
+#     excludes. The recursion above is correct for everything it copies, but it never touches
+#     libpulse, so libpipewire dangled and the audit failed on it. Sweep the whole shipped set (the
+#     same files the CI audit in linux-release.yml scans for NEEDED) and pull in every dependency
+#     that is neither already bundled nor a HOST_BASELINE guarantee, repeating until nothing new
+#     shows up so a copied library's own deps travel too. libpulse and libpipewire come from the one
+#     build host: a matched pair, not the host pipewire-jack shim mismatch defect 2 warns about (1.
+#     bundles a real jackd2 libjack, which keeps that shim out of reach). Runs after 1e so the
+#     gnutls stack already sits in gnutls-fallback/, counted as "have" here exactly as the audit
+#     counts it, and HOST_BASELINE keeps it (and the graphics/wayland libs) off usr/lib regardless.
+in_baseline() {
+  case " $(echo "$HOST_BASELINE" | tr -s ' \n' ' ') " in *" $1 "*) return 0;; esac
+  case "$1" in libc.so.*|libm.so.*|libpthread.so.*|libdl.so.*|librt.so.*|ld-linux*) return 0;; esac
+  return 1
+}
+while :; do
+  added=0
+  while read -r name path; do
+    [ -n "$name" ] || continue
+    in_baseline "$name" && continue
+    [ -e "$APPDIR/usr/lib/$name" ] && continue
+    [ -e "$APPDIR/usr/lib64/$name" ] && continue
+    [ -e "$FALLBACK/$name" ] && continue
+    [ -e "$path" ] || continue
+    cp -L "$path" "$APPDIR/usr/lib/$name"
+    echo "==> bundled $name (closure sweep)"
+    added=1
+  done < <(
+    for f in "$APPDIR"/usr/lib/*.so* "$APPDIR"/usr/lib64/*.so* \
+             "$APPDIR"/usr/lib/gstreamer-1.0/*.so "$APPDIR"/usr/bin/*; do
+      [ -e "$f" ] || continue
+      ldd "$f" 2>/dev/null | awk '/=> \//{print $1, $3}'
+    done
+  )
+  [ "$added" -eq 0 ] && break
+done
+
 # 2. Point GIO_EXTRA_MODULES at the AppDir's own module directories — never the host's, see the
 #    header. Appended rather than edited in place: AppRun *sources* the hook, so the last assignment
 #    wins, and appending can't be broken by linuxdeploy reshaping the lines above it.
