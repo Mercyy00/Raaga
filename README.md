@@ -57,12 +57,16 @@ YouTube Music client, and grew from there.
 
 <table>
   <tr>
-    <td><img src="website/src/assets/screen-playlist.webp" alt="A playlist in Raaga"></td>
-    <td><img src="website/src/assets/screen-lyrics.webp" alt="Word-by-word synced lyrics"></td>
+    <td><img src="website/src/assets/screen-playlist.png" alt="A playlist in Raaga"></td>
+    <td><img src="website/src/assets/screen-lyrics.png" alt="Word-by-word synced lyrics"></td>
   </tr>
   <tr>
-    <td><img src="website/src/assets/screen-album.webp" alt="An album page, colors adapted to the cover"></td>
-    <td><img src="website/src/assets/screen-video.webp" alt="A music video playing with lyrics alongside"></td>
+    <td><img src="website/src/assets/screen-album.png" alt="An album page, colors adapted to the cover"></td>
+    <td><img src="website/src/assets/screen-listen-together.png" alt="A Listen Together room"></td>
+  </tr>
+  <tr>
+    <td><img src="website/src/assets/screen-queue.png" alt="The queue with radio continuation"></td>
+    <td><img src="website/src/assets/screen-mini.png" alt="Mini player mode"></td>
   </tr>
 </table>
 
