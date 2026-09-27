@@ -10,9 +10,9 @@
 #
 #   scripts/stream-health-local.sh            # run once, notify only if something broke
 #   scripts/stream-health-local.sh --install  # set up the daily systemd user timer
-#   systemctl --user list-timers limusic-stream-health.timer
+#   systemctl --user list-timers raaga-stream-health.timer
 #
-# Full output of the last run is kept at ~/.local/state/limusic/stream-health.log.
+# Full output of the last run is kept at ~/.local/state/raaga/stream-health.log.
 #
 # ponytail: a timer and notify-send, no alerting stack. It runs on the machine that would ship the
 # fix anyway. If this ever needs to reach you when you are away from it, the lazy upgrade is a
@@ -20,23 +20,23 @@
 set -uo pipefail
 
 REPO=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-LOG="${XDG_STATE_HOME:-$HOME/.local/state}/limusic/stream-health.log"
+LOG="${XDG_STATE_HOME:-$HOME/.local/state}/raaga/stream-health.log"
 UNITS="${XDG_CONFIG_HOME:-$HOME/.config}/systemd/user"
 
 if [[ "${1:-}" == "--install" ]]; then
   mkdir -p "$UNITS"
-  cat > "$UNITS/limusic-stream-health.service" <<EOF
+  cat > "$UNITS/raaga-stream-health.service" <<EOF
 [Unit]
-Description=Limusic: can YouTube still stream a whole track
+Description=Raaga: can YouTube still stream a whole track
 After=network-online.target
 
 [Service]
 Type=oneshot
 ExecStart=$REPO/scripts/stream-health-local.sh
 EOF
-  cat > "$UNITS/limusic-stream-health.timer" <<'EOF'
+  cat > "$UNITS/raaga-stream-health.timer" <<'EOF'
 [Unit]
-Description=Daily Limusic stream health check
+Description=Daily Raaga stream health check
 
 [Timer]
 OnCalendar=daily
@@ -49,8 +49,8 @@ RandomizedDelaySec=15m
 WantedBy=timers.target
 EOF
   systemctl --user daemon-reload
-  systemctl --user enable --now limusic-stream-health.timer
-  systemctl --user list-timers --no-pager limusic-stream-health.timer
+  systemctl --user enable --now raaga-stream-health.timer
+  systemctl --user list-timers --no-pager raaga-stream-health.timer
   exit 0
 fi
 
@@ -75,6 +75,6 @@ tail -n 30 "$LOG"
 
 # The test's own panic message names which leg of the chain went, so it is the whole notification.
 why=$(grep -m3 -E '^(VISIONOS|rustypipe resolve)' "$LOG" | tr '\n' ' ')
-notify-send -u critical "Limusic: YouTube stream check failed" \
+notify-send -u critical "Raaga: YouTube stream check failed" \
   "${why:-see $LOG}" 2>/dev/null
 exit "$status"

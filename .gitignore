@@ -27,3 +27,12 @@ rustypipe_reports/
 /plans
 scripts/bench.sh
 scripts/triage.py
+
+# libmpv dev scratch (setup-windows.ps1)
+.mpv-dev/
+src-tauri/libmpv-2.dll
+
+# Design/skill tooling under website/ — local only, not part of the app
+/website/.agents/
+/website/.claude/
+/website/skills-lock.json

@@ -44,7 +44,7 @@ const MAX_BOOTSTRAPS: usize = 8;
 /// Identifier the class check mints against: plain ASCII, so its decoded byte length is its char
 /// length and the integrity-token arithmetic is exact. visitorData is not usable for this — it
 /// carries percent escapes, and reading the class off it came out a byte adrift of the truth.
-const CLASS_PROBE: &str = "limusicprobe";
+const CLASS_PROBE: &str = "raagaprobe";
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
@@ -304,7 +304,7 @@ mod tests {
 /// invoked explicitly). Prints the pot so it can be HEAD-tested with
 /// `progress/active/webremix-403-harness/pot_head_test.py`.
 ///
-///   cargo test -p limusic-app botguard_mints_an_accepted_token -- --ignored --nocapture
+///   cargo test -p raaga-app botguard_mints_an_accepted_token -- --ignored --nocapture
 #[cfg(test)]
 mod live {
     use super::*;
@@ -313,9 +313,9 @@ mod live {
     #[tokio::test]
     #[ignore = "hits live YouTube"]
     async fn botguard_mints_an_accepted_token() {
-        let visitor = std::env::var("LIMUSIC_VISITOR_DATA")
-            .expect("set LIMUSIC_VISITOR_DATA to the app's visitor_data setting");
-        let video_id = std::env::var("LIMUSIC_VIDEO_ID").unwrap_or_else(|_| "PtHEr7siapo".into());
+        let visitor = std::env::var("RAAGA_VISITOR_DATA")
+            .expect("set RAAGA_VISITOR_DATA to the app's visitor_data setting");
+        let video_id = std::env::var("RAAGA_VIDEO_ID").unwrap_or_else(|_| "PtHEr7siapo".into());
 
         let t0 = Instant::now();
         let b = Minter::spawn(crate::http::WEB_UA.to_owned(), visitor.clone())
@@ -349,12 +349,12 @@ mod live {
     /// the next `/player` call has to mint another one off that live runtime. Lives here rather
     /// than beside `PoTokenGenerator` because only a real runtime proves it.
     ///
-    ///   cargo test -p limusic-app session_token_is_reminted -- --ignored --nocapture
+    ///   cargo test -p raaga-app session_token_is_reminted -- --ignored --nocapture
     #[tokio::test]
     #[ignore = "hits live YouTube"]
     async fn session_token_is_reminted_after_invalidation() {
-        let visitor = std::env::var("LIMUSIC_VISITOR_DATA")
-            .expect("set LIMUSIC_VISITOR_DATA to the app's visitor_data setting");
+        let visitor = std::env::var("RAAGA_VISITOR_DATA")
+            .expect("set RAAGA_VISITOR_DATA to the app's visitor_data setting");
         let db =
             std::sync::Arc::new(crate::db::Db::open(std::path::Path::new(":memory:")).unwrap());
         let g = crate::potoken::PoTokenGenerator::new(db);

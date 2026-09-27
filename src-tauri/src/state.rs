@@ -25,7 +25,7 @@ use crate::orchestrator::{Orchestrator, PlaybackData, PlaybackPing, ResolveError
 /// Synthetic browseId for the On Repeat playlist. Not a YouTube id: `get_playlist` intercepts it
 /// and builds the page from local play counts, so it must never collide with a real browseId
 /// (`VL…` / `MPRE…` / `RD…`).
-pub const ON_REPEAT_ID: &str = "LIMUSIC_ON_REPEAT";
+pub const ON_REPEAT_ID: &str = "RAAGA_ON_REPEAT";
 /// How far back On Repeat looks. A month is long enough to survive a quiet week and short enough
 /// that the list still turns over with what you're actually playing.
 pub const ON_REPEAT_WINDOW_SECS: i64 = 30 * 24 * 60 * 60;
@@ -254,7 +254,7 @@ pub(crate) fn persisted_data_sync_id(db: &Db) -> Option<String> {
 
 fn identity_selection_key(data_sync_id: &str) -> String {
     let mut hasher = DefaultHasher::new();
-    "limusic-account-identity-v1".hash(&mut hasher);
+    "raaga-account-identity-v1".hash(&mut hasher);
     data_sync_id.hash(&mut hasher);
     format!("identity-{:016x}", hasher.finish())
 }
@@ -442,9 +442,9 @@ impl AppState {
     }
 
     /// User-disabled stream clients — comma-separated setting. Also the force-fail lever for the
-    /// rustypipe-solo acceptance test; `LIMUSIC_DISABLED_CLIENTS` env overrides for quick testing.
+    /// rustypipe-solo acceptance test; `RAAGA_DISABLED_CLIENTS` env overrides for quick testing.
     pub(crate) fn disabled_clients(&self) -> HashSet<String> {
-        let raw = std::env::var("LIMUSIC_DISABLED_CLIENTS")
+        let raw = std::env::var("RAAGA_DISABLED_CLIENTS")
             .ok()
             .or_else(|| self.db.get_setting("disabled_stream_clients"))
             .unwrap_or_default();

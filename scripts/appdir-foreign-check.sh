@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Check a Limusic AppDir on a distro that isn't the build host. Runs INSIDE a container, with the
+# Check a Raaga AppDir on a distro that isn't the build host. Runs INSIDE a container, with the
 # AppDir mounted at /app, and installs the desktop packages it needs itself.
 #
-#   podman run --rm -v "$PWD/target/release/bundle/appimage/limusic.AppDir:/app:ro,z" \
+#   podman run --rm -v "$PWD/target/release/bundle/appimage/raaga.AppDir:/app:ro,z" \
 #     -v "$PWD/scripts/appdir-foreign-check.sh:/check.sh:ro,z" debian:sid bash /check.sh
 #
 # Also runs against a published release: extract it with `--appimage-extract` and mount
@@ -32,7 +32,7 @@
 set -uo pipefail
 
 APPDIR=/app
-BIN="$APPDIR/usr/bin/limusic-app"
+BIN="$APPDIR/usr/bin/raaga-app"
 FAIL=0
 step() { printf '\n── %s\n' "$1"; }
 bad()  { echo "   FAIL: $1"; FAIL=1; }

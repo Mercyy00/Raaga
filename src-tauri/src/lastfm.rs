@@ -32,11 +32,11 @@ use crate::state::AppState;
 /// (via build.rs) — never from source, the repo is public. Registered at
 /// <https://www.last.fm/api/account/create>. Without them the titlebar button errors out with a
 /// clear message instead of silently doing nothing.
-const API_KEY: &str = match option_env!("LIMUSIC_LASTFM_API_KEY") {
+const API_KEY: &str = match option_env!("RAAGA_LASTFM_API_KEY") {
     Some(v) => v,
     None => "",
 };
-const API_SECRET: &str = match option_env!("LIMUSIC_LASTFM_API_SECRET") {
+const API_SECRET: &str = match option_env!("RAAGA_LASTFM_API_SECRET") {
     Some(v) => v,
     None => "",
 };

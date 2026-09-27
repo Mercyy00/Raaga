@@ -1,8 +1,8 @@
 //! The text a user hands over when something breaks: what this machine is, plus the tail of
-//! `limusic.log` with the secrets taken out.
+//! `raaga.log` with the secrets taken out.
 //!
 //! A report used to cost a round of questions (version, distro, how they installed it) and then
-//! walking someone to `~/.local/share/limusic/limusic.log` by hand. This is that conversation,
+//! walking someone to `~/.local/share/raaga/raaga.log` by hand. This is that conversation,
 //! precomputed, behind one button in Settings ▸ About.
 //!
 //! Redaction is the part that is not allowed to be lazy. The blob is written to be pasted into a
@@ -32,9 +32,9 @@ const FRESH_LOG_BYTES: u64 = 4096;
 /// reported as `set` instead of printed.
 const ENV_KEYS: &[&str] = &[
     "RUST_LOG",
-    "LIMUSIC_MPV_LOG",
-    "LIMUSIC_PROXY",
-    "LIMUSIC_DISABLED_CLIENTS",
+    "RAAGA_MPV_LOG",
+    "RAAGA_PROXY",
+    "RAAGA_DISABLED_CLIENTS",
     "WEBKIT_DISABLE_DMABUF_RENDERER",
     "WEBKIT_DMABUF_RENDERER_FORCE_SHM",
     "__NV_DISABLE_EXPLICIT_SYNC",
@@ -43,13 +43,13 @@ const ENV_KEYS: &[&str] = &[
 ];
 
 /// Env vars printed as `set`, never by value.
-const SECRET_ENV_KEYS: &[&str] = &["LIMUSIC_PROXY", "LIMUSIC_COOKIE", "LIMUSIC_VISITOR_DATA"];
+const SECRET_ENV_KEYS: &[&str] = &["RAAGA_PROXY", "RAAGA_COOKIE", "RAAGA_VISITOR_DATA"];
 
 /// Environment header + redacted log tail, capped at [`MAX_CHARS`].
 pub fn report(app: &AppHandle, db: &Db) -> String {
     let mut out = String::new();
     out.push_str(
-        "# Limusic diagnostics. Paste this into your bug report.\n\
+        "# Raaga diagnostics. Paste this into your bug report.\n\
          # Cookies, tokens, signed URLs, file paths and IP addresses have been removed.\n\n",
     );
     header(&mut out, app, db);
@@ -75,7 +75,7 @@ pub fn summary(app: &AppHandle, db: &Db) -> String {
 fn header(out: &mut String, app: &AppHandle, db: &Db) {
     let _ = writeln!(
         out,
-        "Limusic {} ({} {}, {})",
+        "Raaga {} ({} {}, {})",
         env!("CARGO_PKG_VERSION"),
         std::env::consts::OS,
         std::env::consts::ARCH,
@@ -178,14 +178,14 @@ fn install_kind(app: &AppHandle) -> &'static str {
 
 /// The log to include: this run, preceded by the previous one when this run has barely started.
 fn log_text(dir: &Path, budget: usize) -> String {
-    let current = dir.join("limusic.log");
-    let previous = dir.join("limusic.log.1");
+    let current = dir.join("raaga.log");
+    let previous = dir.join("raaga.log.1");
     let mut text = String::new();
     if std::fs::metadata(&current).map(|m| m.len()).unwrap_or(0) < FRESH_LOG_BYTES {
         if let Some(t) = tail(&previous, budget / 2) {
-            text.push_str("=== previous run (limusic.log.1) ===\n");
+            text.push_str("=== previous run (raaga.log.1) ===\n");
             text.push_str(&t);
-            text.push_str("\n=== this run (limusic.log) ===\n");
+            text.push_str("\n=== this run (raaga.log) ===\n");
         }
     }
     let left = budget.saturating_sub(text.len());
@@ -273,7 +273,7 @@ mod tests {
             "visitorData=CgtabcdefghijklmnopqrstuvwxyzABCDEFGHIJ0123456789\n",
             "video_id=dQw4w9WgXcQ proxy at 127.0.0.1:8080\n",
             "INFO app_lib::potoken: session token still valid, skipping the bootstrap\n",
-            // mpv's own log reaches this file now (LIMUSIC_MPV_LOG), and at `v` it prints the
+            // mpv's own log reaches this file now (RAAGA_MPV_LOG), and at `v` it prints the
             // whole signed URL it was handed.
             "INFO mpv: [cplayer] Playing: https://rr5---sn-abc.googlevideo.com/videoplayback?expire=1789575360&sig=AE0s2JYwRgIhAIzeTLdUmzZHPIYZUZW7LL1NlnqZ50b1nk\n",
         );
@@ -300,7 +300,7 @@ mod tests {
 
     #[test]
     fn tail_keeps_the_end_and_never_splits_a_line() {
-        let dir = std::env::temp_dir().join("limusic-diag-test");
+        let dir = std::env::temp_dir().join("raaga-diag-test");
         std::fs::create_dir_all(&dir).unwrap();
         let path = dir.join("t.log");
         std::fs::write(&path, "first line\nsecond line\nthird line\n").unwrap();

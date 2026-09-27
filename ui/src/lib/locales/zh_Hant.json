@@ -297,7 +297,6 @@
 			"updates": "更新",
 			"report": "回報問題",
 			"whats_new": "最新內容",
-			"support": "支持",
 			"discord_status": "狀態",
 			"discord_card": "資訊卡",
 			"discord_links": "超連結",
@@ -308,15 +307,15 @@
 			"language_hint": "選擇介面顯示語言。",
 			"shortcuts_hint": "{key} 查看鍵盤快速鍵",
 			"autostart": "開機啟動",
-			"autostart_hint": "開機自動開啟 Limusic。",
+			"autostart_hint": "開機自動開啟 Raaga。",
 			"close_to_tray": "縮小至系統匣",
-			"close_to_tray_hint": "當視窗關閉時繼續執行 Limusic。",
+			"close_to_tray_hint": "當視窗關閉時繼續執行 Raaga。",
 			"system_titlebar": "使用系統標題列",
 			"system_titlebar_hint": "使用系統原生的標題列。",
 			"discord_rpc": "Discord Rich Presence",
 			"discord_rpc_hint": "在 Discord 個人頁面顯示現正播放的歌曲。",
 			"update_banner": "更新通知",
-			"update_banner_hint": "當 Limusic 有更新時顯示橫幅。",
+			"update_banner_hint": "當 Raaga 有更新時顯示橫幅。",
 			"proxy": "HTTP/HTTPS Proxy",
 			"proxy_hint": "使用自定義 Proxy Server 轉發所有網路請求。",
 			"proxy_placeholder": "在此輸入 Proxy 位址，範例：http://host:port",
@@ -429,10 +428,7 @@
 			"diagnostics_saved": "已保存",
 			"report_issue": "開啟錯誤回報表單",
 			"report_issue_hint": "在您的瀏覽器中開啟 GitHub，並自動填充版本和系統信息。",
-			"report_issue_button": "回報",
-			"kofi": "請我喝杯咖啡",
-			"kofi_hint": "Limusic 始終免費，如果您願意，可以通過 Ko-fi 平臺進行斗內。",
-			"kofi_button": "前往斗內"
+			"report_issue_button": "回報"
 		},
 		"discord": {
 			"enable": "Rich Presence",
@@ -448,8 +444,8 @@
 			"status_line1": "第一行",
 			"status_line2": "第二行",
 			"app_name": "應用程式名稱",
-			"app_name_hint": "將 “Limusic” 替換為應用程式名稱。如果需要保留原名稱，則留空。",
-			"app_name_placeholder": "Limusic",
+			"app_name_hint": "將 “Raaga” 替換為應用程式名稱。如果需要保留原名稱，則留空。",
+			"app_name_placeholder": "Raaga",
 			"line1": "第一行",
 			"line1_hint": "醒目的標題下的那條粗體文字。",
 			"line2": "第二行",
@@ -461,8 +457,8 @@
 			"content_off": "隱藏",
 			"cover": "專輯封面",
 			"cover_hint": "將封面顯示在曲目旁邊。",
-			"badge": "Limusic 標誌",
-			"badge_hint": "在作品上添加一個小的 “Limusic” 圖標，類似於 Spotify 和 Apple Music。",
+			"badge": "Raaga 標誌",
+			"badge_hint": "在作品上添加一個小的 “Raaga” 圖標，類似於 Spotify 和 Apple Music。",
 			"line3": "第三行",
 			"line3_hint": "最後一行。Discord 也使用這張作為懸停時的文本，因此需要包含專輯封面。",
 			"timestamps": "進度條",
@@ -477,7 +473,7 @@
 			"button_listen": "透過 YouTube Music 收聽",
 			"button_album": "查看專輯",
 			"button_artist": "查看演出者",
-			"button_app": "取得 Limusic",
+			"button_app": "取得 Raaga",
 			"button_off": "無",
 			"preview": "預覽",
 			"preview_live": "現正播放",
@@ -493,7 +489,7 @@
 			"action_prev_track_hint": "回到待播清單中的上一首歌曲。",
 			"action_toggle_shuffle_hint": "切換待播清單的隨機播放。",
 			"title": "全域快捷鍵",
-			"description": "即使 Limusic 最小化或在後台運行，也可以使用自定義的快捷鍵來控制播放。",
+			"description": "即使 Raaga 最小化或在後台運行，也可以使用自定義的快捷鍵來控制播放。",
 			"enable": "啟用全域快捷鍵",
 			"enable_hint": "全域快捷鍵已禁用。啟用後，即可在整個系統範圍內捕獲快捷鍵。",
 			"off": "關閉",
@@ -524,8 +520,8 @@
 			"action_toggle_shuffle": "切換隨機播放",
 			"action_toggle_repeat": "切換循環播放",
 			"action_toggle_repeat_hint": "循環播放模式：關閉、所有、單曲。",
-			"action_show_app": "打開 Limusic",
-			"action_show_app_hint": "顯示 Limusic 視窗。"
+			"action_show_app": "打開 Raaga",
+			"action_show_app_hint": "顯示 Raaga 視窗。"
 		}
 	},
 	"dialogs": {
@@ -635,7 +631,7 @@
 		"discord_tooltip_off": "在 Discord 上分享您正在聽的歌曲",
 		"lastfm_scrobbling_as": "以 {user} 的身份紀錄",
 		"lastfm_disconnected": "Last.fm 已中斷連接",
-		"lastfm_approve_in_browser": "在瀏覽器授權 Limusic",
+		"lastfm_approve_in_browser": "在瀏覽器授權 Raaga",
 		"lastfm_connecting": "連接到 Last.fm — 點擊以取消",
 		"lastfm_scrobble_to": "紀錄至 Last.fm",
 		"disconnect": "解除連接"
@@ -771,7 +767,7 @@
 	"errors": {
 		"unreachable": "無法連接到 YouTube Music。請檢查您的網絡連接。",
 		"offline_title": "沒有網路連接",
-		"offline_body": "Limusic 無法訪問 YouTube Music。請檢查您的網絡連接，然後重試。",
+		"offline_body": "Raaga 無法訪問 YouTube Music。請檢查您的網絡連接，然後重試。",
 		"generic_title": "糟糕，發生了一點錯誤"
 	}
 }

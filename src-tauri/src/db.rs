@@ -20,7 +20,7 @@ pub struct Db(Mutex<Connection>);
 pub fn account_key(session_cookie: &str) -> Option<String> {
     let sapisid = innertube::cookie_sapisid(session_cookie)?;
     let mut digest = Md5::new();
-    digest.update(b"limusic-google-account-v1");
+    digest.update(b"raaga-google-account-v1");
     digest.update(sapisid.as_bytes());
     Some(format!("ga-{:x}", digest.finalize()))
 }
@@ -959,7 +959,7 @@ mod tests {
     #[test]
     fn opening_the_db_clears_local_files_out_of_on_repeat() {
         // 0.3.1 counted local plays before On Repeat excluded them; opening the db drops the rows.
-        let path = std::env::temp_dir().join("limusic-plays-purge-test.sqlite");
+        let path = std::env::temp_dir().join("raaga-plays-purge-test.sqlite");
         std::fs::remove_file(&path).ok();
         {
             let d = Db::open(&path).unwrap();
@@ -1190,7 +1190,7 @@ mod tests {
     /// already there is merged away rather than left to show up twice in the menu.
     #[test]
     fn opening_the_db_rekeys_and_dedupes_accounts() {
-        let path = std::env::temp_dir().join("limusic-accounts-rekey-test.sqlite");
+        let path = std::env::temp_dir().join("raaga-accounts-rekey-test.sqlite");
         std::fs::remove_file(&path).ok();
         let canonical = account_key("SAPISID=aaa").unwrap();
         {
@@ -1236,7 +1236,7 @@ mod tests {
     /// Databases written before multi-account migrate their single session into `accounts` once.
     #[test]
     fn opening_the_db_migrates_the_legacy_session() {
-        let path = std::env::temp_dir().join("limusic-accounts-migration-test.sqlite");
+        let path = std::env::temp_dir().join("raaga-accounts-migration-test.sqlite");
         std::fs::remove_file(&path).ok();
         {
             let d = Db::open(&path).unwrap();

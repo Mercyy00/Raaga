@@ -5,7 +5,7 @@
 	// what your friends will read.
 	//
 	// The colors are Discord's, hardcoded rather than taken from the theme tokens. This is a picture
-	// of another application, so following the user's Limusic theme would make it *less* accurate,
+	// of another application, so following the user's Raaga theme would make it *less* accurate,
 	// not more. Same reasoning for the English strings marked below: Discord renders "Listening to"
 	// in the *viewer's* language, and the button labels are ours, sent over the wire in English.
 	import { HugeiconsIcon } from '@hugeicons/svelte';
@@ -14,7 +14,7 @@
 	import { thumb } from '$lib/thumb';
 	// The bundled logo, not `appIcon.src`: the badge Rust sends is a fixed URL to the repo's own
 	// icon, so a user who replaced their app icon (#173) must not see that reflected here.
-	import limusicLogo from '$lib/assets/favicon.svg';
+	import raagaLogo from '$lib/assets/favicon.svg';
 	import type { DiscordConfig, PreviewTrack } from '$lib/discord';
 	import { cardText, cardLink, BUTTON_LABELS } from '$lib/discord';
 
@@ -37,7 +37,7 @@
 	/** Discord's own wording, deliberately untranslated — see the note at the top. */
 	const LISTENING_TO = 'Listening to';
 
-	const appName = $derived(cfg.app_name.trim() || 'Limusic');
+	const appName = $derived(cfg.app_name.trim() || 'Raaga');
 	// The profile card's header is *always* the application name. `status_display_type` only moves
 	// the one-line status Discord writes under your name in the member list, which is why that gets
 	// its own mock below rather than being folded into this header.
@@ -128,7 +128,7 @@
 				{#if badge}
 					<!-- Discord draws `small_image` as a circle clipped to the artwork's bottom-right. -->
 					<img
-						src={limusicLogo}
+						src={raagaLogo}
 						alt=""
 						class="absolute -right-1 -bottom-1 size-[22px] rounded-full ring-2 ring-[#232428]"
 						draggable="false"

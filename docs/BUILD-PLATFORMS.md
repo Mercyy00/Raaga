@@ -1,6 +1,6 @@
-# Building Limusic on each platform
+# Building Raaga on each platform
 
-Limusic is a Tauri 2 app (Rust core + SvelteKit SPA) that dynamically links **libmpv** (mpv API
+Raaga is a Tauri 2 app (Rust core + SvelteKit SPA) that dynamically links **libmpv** (mpv API
 2.x, i.e. mpv ≥ 0.35). Tauri does **not** cross-compile — build each OS on that OS. The Rust link
 step just emits `cargo:rustc-link-lib=mpv` (via `libmpv2-sys`), so "getting it to build" is really
 "putting libmpv's import library on the linker's search path"; "getting it to run" is "shipping the
@@ -26,7 +26,7 @@ auto-merges the platform file over the base for the current OS.
 sudo dnf install mpv-libs mpv-libs-devel webkit2gtk4.1-devel \
   gcc gcc-c++ make openssl-devel librsvg2-devel   # + standard Tauri build deps
 cd ui && pnpm install && pnpm build
-cargo tauri build            # → target/release/bundle/rpm/limusic-*.rpm (plus a test-only .deb)
+cargo tauri build            # → target/release/bundle/rpm/raaga-*.rpm (plus a test-only .deb)
 ```
 
 ### Ubuntu / Debian
@@ -34,7 +34,7 @@ cargo tauri build            # → target/release/bundle/rpm/limusic-*.rpm (plus
 sudo apt install libmpv-dev libwebkit2gtk-4.1-dev libgtk-3-dev librsvg2-dev \
   libssl-dev libdbus-1-dev
 cd ui && pnpm install && pnpm build
-cargo tauri build --bundles deb   # → target/release/bundle/deb/limusic_*.deb
+cargo tauri build --bundles deb   # → target/release/bundle/deb/raaga_*.deb
 ```
 
 - libmpv is system-provided (`mpv-libs`), found on the default linker path — no bundling needed.
@@ -96,7 +96,7 @@ cargo tauri build --bundles deb   # → target/release/bundle/deb/limusic_*.deb
 6. **Build:**
    ```powershell
    cd ui; pnpm build; cd ..
-   cargo tauri build          # → target/release/bundle/{msi,nsis}/limusic_*.{msi,exe}
+   cargo tauri build          # → target/release/bundle/{msi,nsis}/raaga_*.{msi,exe}
    ```
 - Media keys use **SMTC** (the volume-flyout media card). souvlaki binds it to the main window
   handle — see the validation checklist below.
@@ -120,7 +120,7 @@ cargo tauri build --bundles deb   # → target/release/bundle/deb/limusic_*.deb
 4. **Build:**
    ```bash
    cd ui && pnpm build && cd ..
-   cargo tauri build          # → target/release/bundle/{macos,dmg}/limusic.{app,dmg}
+   cargo tauri build          # → target/release/bundle/{macos,dmg}/raaga.{app,dmg}
    ```
 5. **Bundle the dylibs, all of them.** What comes out of step 4 runs on *your* machine
    only: the binary links `libmpv.2.dylib` by its absolute Homebrew path, and libmpv in turn links
@@ -129,9 +129,9 @@ cargo tauri build --bundles deb   # → target/release/bundle/deb/limusic_*.deb
    `dylibbundler`, which walks the whole thing:
    ```bash
    brew install dylibbundler
-   APP=target/release/bundle/macos/limusic.app
+   APP=target/release/bundle/macos/raaga.app
    # The executable is NOT named after the bundle: productName names the .app, the cargo package
-   # names the binary (limusic-app). Ask the bundle rather than guessing.
+   # names the binary (raaga-app). Ask the bundle rather than guessing.
    BIN="$APP/Contents/MacOS/$(plutil -extract CFBundleExecutable raw "$APP/Contents/Info.plist")"
    dylibbundler -cd -of -b -x "$BIN" \
      -d "$APP/Contents/Frameworks" -p "@executable_path/../Frameworks" -s "$(brew --prefix)/lib"

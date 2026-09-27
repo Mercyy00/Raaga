@@ -228,7 +228,7 @@ const UI_SETTINGS: [&str; 23] = [
     "locale",
 ];
 
-/// Resolve the music video for `video_id` and hand back a `limusicvideo://` URL the player view
+/// Resolve the music video for `video_id` and hand back a `raagavideo://` URL the player view
 /// can put in a `<video src>`. `None` when YouTube has no usable video stream for it, which is the
 /// ordinary answer for a song and leaves the artwork in place. The real googlevideo URL never
 /// leaves Rust (context/11).
@@ -626,7 +626,7 @@ pub async fn open_mini(app: tauri::AppHandle) -> Result<(), String> {
 }
 
 /// Swap back. Same path as the tray, so the widget and the tray can't disagree about what
-/// "show Limusic" means.
+/// "show Raaga" means.
 #[tauri::command]
 pub async fn close_mini(app: tauri::AppHandle) -> Result<(), String> {
     crate::tray::show_main(&app);
@@ -734,7 +734,7 @@ pub async fn get_library_artists(state: St<'_>) -> Result<Vec<BrowseItem>, Strin
 }
 
 /// A playlist or album page. `id` is the browseId (`VL…` / `MPRE…`); Liked Songs is `VLLM`, and
-/// `LIMUSIC_ON_REPEAT` is the local auto-playlist rather than anything YouTube knows about.
+/// `RAAGA_ON_REPEAT` is the local auto-playlist rather than anything YouTube knows about.
 ///
 /// `sort` asks YouTube for the tracks in a given order; `None` gets whatever order the account
 /// already has the list in, which is what a fresh visit wants (it matches YouTube Music).
@@ -1557,8 +1557,8 @@ pub async fn release_notes() -> Result<Vec<ReleaseNote>, String> {
         prerelease: bool,
     }
     let releases: Vec<GhRelease> = crate::http::client()
-        .get("https://api.github.com/repos/SimoHypers/limusic/releases?per_page=20")
-        .header("User-Agent", concat!("Limusic/", env!("CARGO_PKG_VERSION")))
+        .get("https://api.github.com/repos/Mercyy00/Raaga/releases?per_page=20")
+        .header("User-Agent", concat!("Raaga/", env!("CARGO_PKG_VERSION")))
         .header("Accept", "application/vnd.github+json")
         .timeout(std::time::Duration::from_secs(15))
         .send()
@@ -1589,7 +1589,7 @@ pub async fn release_notes() -> Result<Vec<ReleaseNote>, String> {
 /// Tauri's Linux updater knows one trick: rewrite an AppImage in place. It takes the path from
 /// `Env::appimage` and, when that is unset, falls back to `current_exe()` and writes the downloaded
 /// AppImage bytes over whatever it finds there. On the `.rpm` and on distro packages (the AUR's
-/// `limusic-bin`) that is a package-manager-owned `/usr/bin/limusic-app`: it fails on permissions
+/// `raaga-bin`) that is a package-manager-owned `/usr/bin/raaga-app`: it fails on permissions
 /// rather than doing damage, but offering the button at all is a lie. Those users update through
 /// their package manager, so the UI shows them a download link instead.
 ///
@@ -1623,7 +1623,7 @@ pub async fn open_external(url: String) -> Result<(), String> {
 // --- Diagnostics ----------------------------------------------------------------------------
 
 /// The bug-report blob for Settings ▸ About: environment header plus the redacted tail of
-/// `limusic.log`. See `crate::diagnostics`.
+/// `raaga.log`. See `crate::diagnostics`.
 #[tauri::command]
 pub fn diagnostics(app: tauri::AppHandle, state: St<'_>) -> String {
     crate::diagnostics::report(&app, &state.db)
@@ -1770,7 +1770,7 @@ mod tests {
             video_id: "abc".into(),
             title: "Grace".into(),
             queued: true,
-            queued_by: Some("simohypers".into()),
+            queued_by: Some("listener".into()),
             autoplay: true,
             set_video_id: Some("SVI".into()),
             ..Default::default()

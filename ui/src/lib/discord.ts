@@ -14,7 +14,7 @@
 export interface DiscordConfig {
 	/** Which slot Discord repeats after "Listening to": `app` | `line1` | `line2`. */
 	status_line: string;
-	/** Replaces the registered application name in that slot. Empty keeps "Limusic". */
+	/** Replaces the registered application name in that slot. Empty keeps "Raaga". */
 	app_name: string;
 	/** The card's first (bold) line: `title` | `artist` | `album`. */
 	line1: string;
@@ -30,7 +30,7 @@ export interface DiscordConfig {
 	link_cover: boolean;
 	/** Ignored while paused: Discord has no paused state, so a bar left up keeps running and lies. */
 	timestamps: boolean;
-	/** The Limusic badge in the artwork's corner. Needs `cover`: on its own `small_image` is not a
+	/** The Raaga badge in the artwork's corner. Needs `cover`: on its own `small_image` is not a
 	 *  badge, it becomes the card's image. */
 	badge: boolean;
 	/** Keep the card up while paused. The backend also requires playback to have started once this
@@ -44,7 +44,7 @@ export interface DiscordConfig {
 	button2: string;
 }
 
-/** Must match `impl Default for RpcConfig` — the card Limusic showed before the tab existed, plus
+/** Must match `impl Default for RpcConfig` — the card Raaga showed before the tab existed, plus
  *  the badge, which is on by default. */
 export const DISCORD_DEFAULTS: DiscordConfig = {
 	status_line: 'line2',
@@ -140,5 +140,5 @@ export const BUTTON_LABELS: Record<string, string> = {
 	listen: 'Listen on YouTube Music',
 	album: 'View album',
 	artist: 'View artist',
-	app: 'Get Limusic'
+	app: 'Get Raaga'
 };

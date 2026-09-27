@@ -84,7 +84,7 @@
 		"history": "Historial",
 		"add_account": "Agregar cuenta",
 		"remove_account": "Quitar cuenta",
-		"remove_account_title": "¿Quitar de Limusic?",
+		"remove_account_title": "¿Quitar de Raaga?",
 		"remove_account_desc": "{name} solo se quita de la lista. La cuenta de Google en sí no se ve afectada y puedes iniciar sesión con esta cuando quieras.",
 		"saved_accounts_hint": "Elige una cuenta guardada para cambiar a esta.",
 		"no_channels": "YouTube no devolvió ningún canal seleccionable."
@@ -265,7 +265,6 @@
 			"report": "Reportar un problema",
 			"whats_new": "Novedades",
 			"blocked": "Artistas bloqueados",
-			"support": "Soporte",
 			"discord_status": "Estado",
 			"discord_card": "Tarjeta",
 			"discord_links": "Cliqueable",
@@ -277,20 +276,20 @@
 			"language_hint": "Selecciona el idioma de visualización de la interfaz.",
 			"shortcuts_hint": "Abre los atajos de teclado con {key}",
 			"autostart": "Iniciar al arrancar",
-			"autostart_hint": "Iniciar automáticamente Limusic cuando se encienda el sistema.",
+			"autostart_hint": "Iniciar automáticamente Raaga cuando se encienda el sistema.",
 			"close_to_tray": "Minimizar a la bandeja del sistema",
-			"close_to_tray_hint": "Mantener Limusic ejecutándose en segundo plano al cerrar la ventana.",
+			"close_to_tray_hint": "Mantener Raaga ejecutándose en segundo plano al cerrar la ventana.",
 			"discord_rpc": "Presencia en Discord",
 			"discord_rpc_hint": "Mostrar la canción que se está reproduciendo en tu perfil de Discord.",
 			"update_banner": "Notificaciones de actualización",
-			"update_banner_hint": "Mostrar un banner cuando haya una nueva versión de Limusic disponible.",
+			"update_banner_hint": "Mostrar un banner cuando haya una nueva versión de Raaga disponible.",
 			"proxy": "Proxy HTTP/HTTPS",
 			"proxy_hint": "Enrutar todas las solicitudes de red a través de un servidor proxy personalizado.",
 			"proxy_placeholder": "http://host:puerto (vacío = ninguno)",
 			"stream_clients": "Clientes de streaming",
 			"stream_clients_hint": "Desactiva un cliente para omitirlo al resolver streams. Se sobreescribe con la variable de entorno {var}.",
 			"system_titlebar": "Usar la barra de título del sistema",
-			"system_titlebar_hint": "Deja que el sistema gestione el borde de la ventana y sus botones. Limusic mantendrá su propia barra de herramientas debajo."
+			"system_titlebar_hint": "Deja que el sistema gestione el borde de la ventana y sus botones. Raaga mantendrá su propia barra de herramientas debajo."
 		},
 		"themes": {
 			"interface_font": "Fuente de la interfaz",
@@ -398,10 +397,7 @@
 			"report_issue_hint": "Abre GitHub en tu navegador, con la versión y el sistema rellenados.",
 			"report_issue_button": "Reportar",
 			"update_check_failed": "Falló la búsqueda de actualizaciones: {error}",
-			"update_packaged": "Esta instalación se realizó con un gestor de paquetes. Actualízala del mismo modo.",
-			"kofi": "Cómprame un café",
-			"kofi_hint": "Limusic es gratis y seguirá siendo gratis. Ko-fi está ahí por si quieres apoyar.",
-			"kofi_button": "Abrir Ko-fi"
+			"update_packaged": "Esta instalación se realizó con un gestor de paquetes. Actualízala del mismo modo."
 		},
 		"discord": {
 			"enable": "Rich Presence",
@@ -417,8 +413,8 @@
 			"status_line1": "Linea 1",
 			"status_line2": "Linea 2",
 			"app_name": "Nombre de la aplicación",
-			"app_name_hint": "Reemplaza “Limusic” siempre que aparezca el nombre de la aplicación. Déjalo vacío para mantenerlo.",
-			"app_name_placeholder": "Limusic",
+			"app_name_hint": "Reemplaza “Raaga” siempre que aparezca el nombre de la aplicación. Déjalo vacío para mantenerlo.",
+			"app_name_placeholder": "Raaga",
 			"line1": "Linea 1",
 			"line1_hint": "La línea en negrita, justo debajo del encabezado.",
 			"line2": "Linea 2",
@@ -431,7 +427,7 @@
 			"cover": "Carátula del álbum",
 			"cover_hint": "Muestra la carátula junto a la pista.",
 			"badge": "Insignia del proveedor",
-			"badge_hint": "Marca la carátula con un pequeño icono de Limusic, como hacen las tarjetas de Spotify y Apple Music.",
+			"badge_hint": "Marca la carátula con un pequeño icono de Raaga, como hacen las tarjetas de Spotify y Apple Music.",
 			"line3": "Linea 3",
 			"line3_hint": "La última línea. Discord también la usa como texto al pasar el cursor sobre la carátula, así que necesita la carátula activada.",
 			"timestamps": "Barra de progreso",
@@ -446,7 +442,7 @@
 			"button_listen": "Escuchar en YouTube Music",
 			"button_album": "Ver álbum",
 			"button_artist": "Ver artista",
-			"button_app": "Obtener Limusic",
+			"button_app": "Obtener Raaga",
 			"button_off": "Nada",
 			"preview": "Previsualización",
 			"preview_live": "Reproduciendo ahora",
@@ -459,7 +455,7 @@
 		},
 		"hotkeys": {
 			"title": "Atajos globales",
-			"description": "Controla la reproducción con atajos de teclado personalizables, incluso cuando Limusic está minimizado o ejecutándose en segundo plano.",
+			"description": "Controla la reproducción con atajos de teclado personalizables, incluso cuando Raaga está minimizado o ejecutándose en segundo plano.",
 			"enable": "Activar atajos globales",
 			"enable_hint": "Los atajos globales están desactivados. Actívalos para que respondan a atajos del sistema.",
 			"off": "Apagado",
@@ -494,7 +490,7 @@
 			"action_toggle_repeat": "Repetición",
 			"action_toggle_repeat_hint": "Modo de repetición: desactivado, todo, uno.",
 			"action_show_app": "Mostrar la aplicación",
-			"action_show_app_hint": "Muestra la ventana de Limusic en primer plano."
+			"action_show_app_hint": "Muestra la ventana de Raaga en primer plano."
 		}
 	},
 	"dialogs": {
@@ -604,7 +600,7 @@
 		"discord_tooltip_off": "Muestra lo que reproduces en Discord",
 		"lastfm_scrobbling_as": "Registrando como {user}",
 		"lastfm_disconnected": "Last.fm desconectado",
-		"lastfm_approve_in_browser": "Aprueba Limusic en tu navegador",
+		"lastfm_approve_in_browser": "Aprueba Raaga en tu navegador",
 		"lastfm_connecting": "Conectando a Last.fm — haz clic para cancelar",
 		"lastfm_scrobble_to": "Registrar en Last.fm",
 		"disconnect": "Desconectar"
@@ -771,7 +767,7 @@
 	"errors": {
 		"unreachable": "No se pudo conectar con YouTube Music. Comprueba tu conexión.",
 		"offline_title": "Sin conexión",
-		"offline_body": "Limusic no pudo conectarse a YouTube Music. Comprueba tu conexión a internet e intenta de nuevo.",
+		"offline_body": "Raaga no pudo conectarse a YouTube Music. Comprueba tu conexión a internet e intenta de nuevo.",
 		"generic_title": "Algo salió mal"
 	}
 }

@@ -294,7 +294,7 @@
 
 	/**
 	 * YouTube's "From the community" shelf is already account-personalized, but it isn't tied to what
-	 * the user actually plays *in Limusic*. Swap its items for community playlists searched from
+	 * the user actually plays *in Raaga*. Swap its items for community playlists searched from
 	 * their top artists, keeping the shelf's title and position. With no listening signal yet — or if
 	 * the searches fail — YouTube's own items are left exactly as they came. Best-effort: this can
 	 * never fail the page.

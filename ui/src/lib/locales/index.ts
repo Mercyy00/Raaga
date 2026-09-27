@@ -1,4 +1,4 @@
-// Catalogs are plain JSON so Weblate can read and write them directly; see CONTRIBUTING.md.
+// Catalogs are plain JSON so translation tools can read and write them directly; see CONTRIBUTING.md.
 // English is the source of truth and the only complete one: `t()` falls back to it per key, so a
 // half-finished catalog renders English for what it is missing rather than a raw key.
 import en from './en.json';
@@ -54,12 +54,12 @@ export const LOCALES: LocaleInfo[] = [
 	{ id: 'zh-Hant', nativeLabel: '繁體中文' }
 ];
 
-// Filenames are Weblate's language codes (pt_BR), the ids here are BCP-47 (pt-BR) because that is
+// Filenames use the translation language codes (pt_BR), the ids here are BCP-47 (pt-BR) because that is
 // what `navigator.language` reports. They differ on purpose; do not rename the files to match.
 // The id is also what goes to YouTube as `hl`, so half the app's text depends on it (#274): a tag
 // YouTube does not know answers 400 to every browse, not English. Adding a locale means checking
 // its id against music.youtube.com, not just landing the catalog.
-// Partial: only English is guaranteed complete, the rest are whatever Weblate has landed so far.
+// Partial: only English is guaranteed complete, the rest are whatever translators have landed so far.
 export const translations: Record<LocaleId, DeepPartial<Translations>> = {
 	en,
 	es,

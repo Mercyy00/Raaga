@@ -2,7 +2,7 @@
 //! Defaults to the Phase-0 spike tones. Plays A then B gaplessly and prints events.
 //!
 //! Also the quickest way to see mpv's own log, which the app forwards into `tracing`:
-//! `LIMUSIC_MPV_LOG=v RUST_LOG=info cargo run -p player --example play`
+//! `RAAGA_MPV_LOG=v RUST_LOG=info cargo run -p player --example play`
 
 use std::collections::HashMap;
 
@@ -18,7 +18,7 @@ async fn main() {
     let a = std::env::args().nth(1).unwrap_or_else(|| "spikes/tone_a.opus".into());
     let b = std::env::args().nth(2).unwrap_or_else(|| "spikes/tone_b.opus".into());
 
-    let cache = std::env::temp_dir().join("limusic-player-example");
+    let cache = std::env::temp_dir().join("raaga-player-example");
     std::fs::create_dir_all(&cache).ok();
 
     let mut p = Player::new(cache.to_str().unwrap()).expect("player");

@@ -1,8 +1,8 @@
 // The theme presets, selected from one picker and persisted to localStorage (a pure UI preference,
-// no backend round-trip). Each is a full token set (background, card, sidebar, radius, …) for light
-// AND dark, defined as a `.theme-<id>` class in layout.css and applied by toggling that class on
-// <html>. 'default' is the exception: its tokens are the :root/.dark block itself, so `theme-default`
-// is on <html> with no rule behind it.
+// no backend round-trip). Each is a full token set (background, card, sidebar, radius, …), defined
+// as a `.theme-<id>` class in layout.css and applied by toggling that class on <html>. Every preset
+// block sets the whole token set and sits after `.dark` in source order, so it paints the same in
+// either light/dark state; `crimson-premiere` is Raaga's default (DEFAULT_THEME below).
 //
 // There used to be a second kind, five accent presets that only overrode --primary/--accent. The
 // Primary Accent picker below does that with every colour instead of five, so they are gone (see
@@ -19,26 +19,45 @@ import { artworkAccent, toAccent, warmAccent } from './artcolor';
 import { allowFontFile } from './api';
 
 export type ThemeId =
-	| 'default'
-	| 'catppuccin'
-	| 'tokyonight'
-	| 'caffeine'
-	| 'neon'
-	| 'breeze'
-	| 'amoled';
+	| 'crimson-premiere'
+	| 'cinematic-dark'
+	| 'butter-green'
+	| 'cherry-cola'
+	| 'bistre-aureolin'
+	| 'vibrant-lime'
+	| 'imperial-violet'
+	| 'midnight-ocean'
+	| 'neon-cyberpunk'
+	| 'elegant-light'
+	| 'clean-daylight'
+	| 'vanilla-cherry'
+	| 'nordic-frost'
+	| 'matcha-cream'
+	| 'sunset-rose';
 
 // `color` is just the picker swatch.
 type Theme = { id: ThemeId; label: string; color: string };
 
 export const THEMES: Theme[] = [
-	{ id: 'default', label: 'Default', color: 'oklch(0.514 0.222 16.935)' },
-	{ id: 'catppuccin', label: 'Catppuccin', color: 'oklch(0.5547 0.2503 297.0156)' },
-	{ id: 'tokyonight', label: 'Tokyo Night', color: 'oklch(0.3593 0.0513 273.1802)' },
-	{ id: 'caffeine', label: 'Caffeine', color: 'oklch(0.4341 0.0392 41.9938)' },
-	{ id: 'neon', label: 'Neon', color: 'oklch(0.6726 0.2904 341.4084)' },
-	{ id: 'breeze', label: 'Breeze', color: 'oklch(0.7227 0.1920 149.5793)' },
-	{ id: 'amoled', label: 'AMOLED', color: 'oklch(0 0 0)' }
+	{ id: 'crimson-premiere', label: 'Crimson Premiere', color: 'oklch(0.5814 0.2349 27.99)' },
+	{ id: 'cinematic-dark', label: 'Cinematic Dark', color: 'oklch(0.7104 0.1554 57.56)' },
+	{ id: 'butter-green', label: 'Butter & Forest', color: 'oklch(0.9507 0.0783 94.95)' },
+	{ id: 'cherry-cola', label: 'Cherry & Vanilla', color: 'oklch(0.9296 0.0156 67.63)' },
+	{ id: 'bistre-aureolin', label: 'Bistre & Gold', color: 'oklch(0.9073 0.1877 101.53)' },
+	{ id: 'vibrant-lime', label: 'Lime & Black', color: 'oklch(0.9023 0.2093 118.24)' },
+	{ id: 'imperial-violet', label: 'Imperial Violet', color: 'oklch(0.8779 0.0746 305.00)' },
+	{ id: 'midnight-ocean', label: 'Midnight Ocean', color: 'oklch(0.8681 0.1595 178.20)' },
+	{ id: 'neon-cyberpunk', label: 'Neon Cyberpunk', color: 'oklch(0.8071 0.1371 203.71)' },
+	{ id: 'elegant-light', label: 'Elegant Ivory', color: 'oklch(0.3000 0.0358 30.20)' },
+	{ id: 'clean-daylight', label: 'Clean Daylight', color: 'oklch(0.5461 0.2152 262.88)' },
+	{ id: 'vanilla-cherry', label: 'Vanilla & Cherry', color: 'oklch(0.4310 0.1767 28.89)' },
+	{ id: 'nordic-frost', label: 'Nordic Frost', color: 'oklch(0.5876 0.1389 241.97)' },
+	{ id: 'matcha-cream', label: 'Matcha & Cream', color: 'oklch(0.4758 0.0777 162.16)' },
+	{ id: 'sunset-rose', label: 'Sunset Rose', color: 'oklch(0.5858 0.2220 17.58)' }
 ];
+
+/** The theme applied on first run and when a stored value is unknown. */
+const DEFAULT_THEME: ThemeId = 'crimson-premiere';
 
 // A removed accent preset falls back to the default palette, carrying its colour over as a custom
 // accent so someone who picked Blue stays blue. Rose was the default palette's own colour, so it
@@ -86,7 +105,7 @@ const ON_DARK = 'oklch(0.985 0 0)';
 const ON_LIGHT = 'oklch(0.205 0 0)';
 
 /** Reactive current selection, so the picker reflects it. */
-export const theme = $state<{ id: ThemeId }>({ id: 'default' });
+export const theme = $state<{ id: ThemeId }>({ id: DEFAULT_THEME });
 export const custom = $state<Custom>({
 	accent: null,
 	hue: null,
@@ -192,7 +211,7 @@ function apply(): void {
 	// choice's inline vars or class behind.
 	[...ACCENT_VARS, ...CUSTOM_VARS, '--art-h'].forEach((v) => root.style.removeProperty(v));
 	root.classList.remove(...PALETTE_CLASSES, TINT_CLASS);
-	root.classList.add(`theme-${t.id}`); // 'default' has no rule: :root/.dark are its tokens
+	root.classList.add(`theme-${t.id}`); // every preset has a full-token-set rule in layout.css
 
 	if (custom.accent) setAccentVars(custom.accent);
 	// Last, so the artwork wins while it's on and the user's own theme is back the moment it isn't.
@@ -423,7 +442,7 @@ export function prewarmArtworkAccent(url: string | undefined | null): void {
 /** Apply the stored theme + customization on startup (defaults to the default palette, no overrides). */
 export function initTheme(): void {
 	const stored = localStorage.getItem(KEY);
-	theme.id = THEMES.some((t) => t.id === stored) ? (stored as ThemeId) : 'default';
+	theme.id = THEMES.some((t) => t.id === stored) ? (stored as ThemeId) : DEFAULT_THEME;
 	try {
 		const saved = JSON.parse(localStorage.getItem(CUSTOM_KEY) ?? '{}');
 		// Only keys we know about, only the shape we expect: a hand-edited or older localStorage

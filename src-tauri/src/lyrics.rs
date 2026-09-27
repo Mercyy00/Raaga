@@ -74,13 +74,13 @@ pub struct LyricsRequest {
     pub duration: Option<f64>,
 }
 
-/// `LIMUSIC_LYRICS_ONLY=<boidu|netease|qq|kugou>` pins the chain to that one provider and bypasses
+/// `RAAGA_LYRICS_ONLY=<boidu|netease|qq|kugou>` pins the chain to that one provider and bypasses
 /// the cache both ways. The last three sit below Boidu, LRCLIB and YouTube Music, so on a normal
 /// catalogue nothing ever reaches them and they cannot be exercised by just playing tracks.
 ///
 /// Unset (the default) leaves the chain exactly as it ships. Testing aid, not a user setting.
 fn forced_provider() -> Option<String> {
-    std::env::var("LIMUSIC_LYRICS_ONLY").ok().filter(|s| !s.is_empty())
+    std::env::var("RAAGA_LYRICS_ONLY").ok().filter(|s| !s.is_empty())
 }
 
 /// Cache-through entry point for the `get_lyrics` command.
@@ -149,7 +149,7 @@ async fn fetch(state: &AppState, mut req: LyricsRequest) -> (Option<Lyrics>, boo
             "qq" => qqmusic_get(req).await,
             "kugou" => kugou_get(req).await,
             other => {
-                tracing::warn!(provider = other, "LIMUSIC_LYRICS_ONLY: unknown provider");
+                tracing::warn!(provider = other, "RAAGA_LYRICS_ONLY: unknown provider");
                 Ok(None)
             }
         };
@@ -287,7 +287,7 @@ struct LrclibTrack {
 
 /// LRCLIB asks integrations to identify themselves via User-Agent.
 const LRCLIB_UA: &str =
-    concat!("Limusic v", env!("CARGO_PKG_VERSION"), " (https://github.com/SimoHypers/limusic)");
+    concat!("Raaga v", env!("CARGO_PKG_VERSION"), " (https://github.com/Mercyy00/Raaga)");
 
 /// A GET to LRCLIB, carrying the two things this API wants from us: who we are, and a bound on how
 /// long we will wait. Both used to be baked into a client of our own.
@@ -1265,7 +1265,7 @@ mod tests {
 
     /// Are the external providers still alive? Hits all four for real, so it is NOT in the default
     /// run (context/17: network tests are opt-in, or `cargo test` fails offline):
-    ///   cargo test -p limusic-app --lib -- --ignored --nocapture
+    ///   cargo test -p raaga-app --lib -- --ignored --nocapture
     ///
     /// This exists because a provider that is *broken* and a provider that simply *has no lyrics
     /// for this track* both return `Ok(None)`, and nothing else in the chain can tell them apart:

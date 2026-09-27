@@ -1,4 +1,4 @@
-// Webview errors into `limusic.log`, so the diagnostics blob a user hands over covers the half of
+// Webview errors into `raaga.log`, so the diagnostics blob a user hands over covers the half of
 // the app that runs in JavaScript. Before this, a blank screen or a rejected `invoke` left nothing
 // in the log at all and the report was a screenshot of nothing happening.
 import { invoke } from '@tauri-apps/api/core';

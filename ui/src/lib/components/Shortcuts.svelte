@@ -6,7 +6,7 @@
 	// nobody discovers. Logic in $lib/personal.ts.
 	//
 	// Not square cards: these were 5.5rem tiles and every label came out as "アプソリュ…" over a
-	// subtitle that was "Simo Hypers •…" fifteen times. A shortcut is a thing you already know, so
+	// subtitle that repeated the same artist name fifteen times. A shortcut is a thing you already know, so
 	// what it owes you is its *name* at a size you can read, not another piece of cover art competing
 	// with the shelves below. Hence wide tiles with the art flush to the leading edge — four to a row
 	// instead of seven, and the title gets four times the width.

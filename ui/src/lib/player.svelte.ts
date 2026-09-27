@@ -418,7 +418,7 @@ export async function unblockArtist(entry: api.BlockedArtist) {
 // `UI_SETTINGS` allowlist entry would buy nothing. Loaded at module scope (guarded like the layout's
 // `initTheme`) so the sidebar and home grid render sorted on the very first paint.
 // ponytail: move to db.rs if it ever needs to be account-scoped or readable outside the webview.
-const PERSONAL_KEY = 'limusic:personal';
+const PERSONAL_KEY = 'raaga:personal';
 
 export const personal = $state<Personal>(pl.empty());
 

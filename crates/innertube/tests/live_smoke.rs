@@ -52,7 +52,7 @@ enum Leg {
     Streams(i32),
     /// Resolved, but googlevideo will not serve the whole file (the KI-11 cap).
     Capped(i32),
-    /// Needs the cipher and a minted PoToken, which live in `limusic-app`, not here.
+    /// Needs the cipher and a minted PoToken, which live in `raaga-app`, not here.
     NotTestableHere,
     Failed(String),
 }
@@ -147,15 +147,15 @@ async fn direct_clients_resolve_and_stream() {
 
 /// Live regression for the "load more duplicates tracks" bug: an owned playlist's continuation
 /// embeds a nested duplicate renderer per row. Self-skips unless a real session is supplied:
-///   LIMUSIC_COOKIE=… LIMUSIC_VISITOR=… cargo test -p innertube --features integration-tests owned_continuation_not_doubled -- --ignored --nocapture
+///   RAAGA_COOKIE=… RAAGA_VISITOR=… cargo test -p innertube --features integration-tests owned_continuation_not_doubled -- --ignored --nocapture
 #[tokio::test]
 #[ignore]
 async fn owned_continuation_not_doubled() {
-    let Some(cookie) = std::env::var("LIMUSIC_COOKIE").ok().filter(|s| !s.is_empty()) else {
-        eprintln!("skipped: set LIMUSIC_COOKIE (+LIMUSIC_VISITOR) to run");
+    let Some(cookie) = std::env::var("RAAGA_COOKIE").ok().filter(|s| !s.is_empty()) else {
+        eprintln!("skipped: set RAAGA_COOKIE (+RAAGA_VISITOR) to run");
         return;
     };
-    let visitor = std::env::var("LIMUSIC_VISITOR").ok().filter(|s| !s.is_empty());
+    let visitor = std::env::var("RAAGA_VISITOR").ok().filter(|s| !s.is_empty());
     let it = InnerTube::new(
         Session { cookie: Some(cookie), visitor_data: visitor, ..Session::default() },
         None,
@@ -191,15 +191,15 @@ async fn owned_continuation_not_doubled() {
 
 /// Issue #72: the library grids come back ~25 at a time, so a single browse truncated any bigger
 /// library. Asserts the grids page past one response, on an account that has more than one page.
-///   LIMUSIC_COOKIE=… LIMUSIC_VISITOR=… cargo test -p innertube --features integration-tests library_grids_page -- --ignored --nocapture
+///   RAAGA_COOKIE=… RAAGA_VISITOR=… cargo test -p innertube --features integration-tests library_grids_page -- --ignored --nocapture
 #[tokio::test]
 #[ignore]
 async fn library_grids_page_past_the_first_response() {
-    let Some(cookie) = std::env::var("LIMUSIC_COOKIE").ok().filter(|s| !s.is_empty()) else {
-        eprintln!("skipped: set LIMUSIC_COOKIE (+LIMUSIC_VISITOR) to run");
+    let Some(cookie) = std::env::var("RAAGA_COOKIE").ok().filter(|s| !s.is_empty()) else {
+        eprintln!("skipped: set RAAGA_COOKIE (+RAAGA_VISITOR) to run");
         return;
     };
-    let visitor = std::env::var("LIMUSIC_VISITOR").ok().filter(|s| !s.is_empty());
+    let visitor = std::env::var("RAAGA_VISITOR").ok().filter(|s| !s.is_empty());
     let it = InnerTube::new(
         Session { cookie: Some(cookie), visitor_data: visitor, ..Session::default() },
         None,
@@ -233,15 +233,15 @@ async fn library_grids_page_past_the_first_response() {
 ///
 /// Read-only on purpose. The write side (`playlist_set_sort`) changes a real playlist for every
 /// client on the account, so it is not something a test suite should do behind your back.
-///   LIMUSIC_COOKIE=… LIMUSIC_VISITOR=… cargo test -p innertube --features integration-tests playlist_sort -- --ignored --nocapture
+///   RAAGA_COOKIE=… RAAGA_VISITOR=… cargo test -p innertube --features integration-tests playlist_sort -- --ignored --nocapture
 #[tokio::test]
 #[ignore]
 async fn playlist_sort_params_still_order_the_server_side_list() {
-    let Some(cookie) = std::env::var("LIMUSIC_COOKIE").ok().filter(|s| !s.is_empty()) else {
-        eprintln!("skipped: set LIMUSIC_COOKIE (+LIMUSIC_VISITOR) to run");
+    let Some(cookie) = std::env::var("RAAGA_COOKIE").ok().filter(|s| !s.is_empty()) else {
+        eprintln!("skipped: set RAAGA_COOKIE (+RAAGA_VISITOR) to run");
         return;
     };
-    let visitor = std::env::var("LIMUSIC_VISITOR").ok().filter(|s| !s.is_empty());
+    let visitor = std::env::var("RAAGA_VISITOR").ok().filter(|s| !s.is_empty());
     let it = InnerTube::new(
         Session { cookie: Some(cookie), visitor_data: visitor, ..Session::default() },
         None,
@@ -435,15 +435,15 @@ async fn radio_seeds_resolve() {
 /// the playlist parser (that browseId is YouTube's own Library ▸ Songs, despite the name). Nothing
 /// else in the app touches it, so this is what says whether YouTube still answers it with a track
 /// shelf and a paging token.
-///   LIMUSIC_COOKIE=… LIMUSIC_VISITOR=… cargo test -p innertube --features integration-tests library_songs -- --ignored --nocapture
+///   RAAGA_COOKIE=… RAAGA_VISITOR=… cargo test -p innertube --features integration-tests library_songs -- --ignored --nocapture
 #[tokio::test]
 #[ignore]
 async fn library_songs_browse_returns_tracks() {
-    let Some(cookie) = std::env::var("LIMUSIC_COOKIE").ok().filter(|s| !s.is_empty()) else {
-        eprintln!("skipped: set LIMUSIC_COOKIE (+LIMUSIC_VISITOR) to run");
+    let Some(cookie) = std::env::var("RAAGA_COOKIE").ok().filter(|s| !s.is_empty()) else {
+        eprintln!("skipped: set RAAGA_COOKIE (+RAAGA_VISITOR) to run");
         return;
     };
-    let visitor = std::env::var("LIMUSIC_VISITOR").ok().filter(|s| !s.is_empty());
+    let visitor = std::env::var("RAAGA_VISITOR").ok().filter(|s| !s.is_empty());
     let it = InnerTube::new(
         Session { cookie: Some(cookie), visitor_data: visitor, ..Session::default() },
         None,
@@ -480,15 +480,15 @@ async fn library_songs_browse_returns_tracks() {
 /// so the whole feature stands on rows still arriving with that menu. It is invisible if it breaks:
 /// no tokens simply means the menu never offers the action. Reports what each surface carried, and
 /// dumps a row's actual menu when nothing matched, since the shape is the thing in question.
-///   LIMUSIC_COOKIE=… LIMUSIC_VISITOR=… cargo test -p innertube --features integration-tests library_tokens -- --ignored --nocapture
+///   RAAGA_COOKIE=… RAAGA_VISITOR=… cargo test -p innertube --features integration-tests library_tokens -- --ignored --nocapture
 #[tokio::test]
 #[ignore]
 async fn song_rows_carry_library_tokens() {
-    let Some(cookie) = std::env::var("LIMUSIC_COOKIE").ok().filter(|s| !s.is_empty()) else {
-        eprintln!("skipped: set LIMUSIC_COOKIE (+LIMUSIC_VISITOR) to run");
+    let Some(cookie) = std::env::var("RAAGA_COOKIE").ok().filter(|s| !s.is_empty()) else {
+        eprintln!("skipped: set RAAGA_COOKIE (+RAAGA_VISITOR) to run");
         return;
     };
-    let visitor = std::env::var("LIMUSIC_VISITOR").ok().filter(|s| !s.is_empty());
+    let visitor = std::env::var("RAAGA_VISITOR").ok().filter(|s| !s.is_empty());
     let it = InnerTube::new(
         Session { cookie: Some(cookie), visitor_data: visitor, ..Session::default() },
         None,
@@ -666,7 +666,7 @@ async fn rustypipe_url_streams_to_the_end() {
 }
 
 /// The two community registries `src-tauri/src/cipher/config.rs` reads. Duplicated here on purpose:
-/// they live in `limusic-app`, which this crate cannot depend on, and a nightly that had to build
+/// they live in `raaga-app`, which this crate cannot depend on, and a nightly that had to build
 /// libmpv and WebKitGTK to check a JSON file would not be run.
 // ponytail: hand-synced with `cipher::config::REGISTRY_URLS`. If that list ever changes, change
 // this; the cost of being wrong is a false red on a nightly, not a shipped bug.

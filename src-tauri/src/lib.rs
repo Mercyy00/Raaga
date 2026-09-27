@@ -1,4 +1,4 @@
-//! Limusic Tauri app. Wires transport + player + db + orchestrator behind the command boundary.
+//! Raaga Tauri app. Wires transport + player + db + orchestrator behind the command boundary.
 
 mod appicon;
 mod audioproxy;
@@ -135,11 +135,11 @@ pub(crate) fn tune_webview_labelled(app: &tauri::AppHandle, label: &str, media: 
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
-/// Logs to stdout **and** to `<app data>/limusic.log`, truncated each launch (the previous run is
-/// kept as `limusic.log.1`).
+/// Logs to stdout **and** to `<app data>/raaga.log`, truncated each launch (the previous run is
+/// kept as `raaga.log.1`).
 ///
 /// The filter names `app_lib`, the `[lib]` name, because that is what every tracing target in this
-/// crate carries (`app_lib::orchestrator`). It said `limusic_app` until 2026-08-29, which only ever
+/// crate carries (`app_lib::orchestrator`). It said `raaga_app` until 2026-08-29, which only ever
 /// matched `main.rs`, so every `debug!` in the app was dropped.
 ///
 /// The file is the only way a Windows or macOS user can produce a log at all: `main.rs` sets
@@ -155,8 +155,8 @@ fn init_logging(dir: &std::path::Path) {
         tracing_subscriber::EnvFilter::try_from_default_env()
             .unwrap_or_else(|_| "info,app_lib=debug".into())
     };
-    let path = dir.join("limusic.log");
-    let _ = std::fs::rename(&path, dir.join("limusic.log.1"));
+    let path = dir.join("raaga.log");
+    let _ = std::fs::rename(&path, dir.join("raaga.log.1"));
     // ponytail: one file per launch, no size cap. A run long enough to matter is a run whose log
     // someone wants anyway; add rotation if that stops being true.
     let file = std::fs::File::create(&path).ok().map(std::sync::Mutex::new);
@@ -319,14 +319,14 @@ pub fn run() {
 
             // Shared: the PoToken generator persists its session token through the same file,
             // and it is built before AppState takes ownership of everything else.
-            let db = Arc::new(Db::open(&data_dir.join("limusic.sqlite")).expect("open sqlite"));
+            let db = Arc::new(Db::open(&data_dir.join("raaga.sqlite")).expect("open sqlite"));
 
             // Session bootstrap (context/15 startup ordering): load the persisted login session
             // (cookie/dataSyncId/visitorData) from settings; fetch visitorData anonymously
             // (context/04 §A) only if we've never stored one.
-            // `LIMUSIC_PROXY` overrides the stored setting, so a region-locked surface can be
+            // `RAAGA_PROXY` overrides the stored setting, so a region-locked surface can be
             // tested for one run without a system-wide VPN (CLAUDE.md).
-            let proxy = std::env::var("LIMUSIC_PROXY")
+            let proxy = std::env::var("RAAGA_PROXY")
                 .ok()
                 .filter(|p| !p.trim().is_empty())
                 .or_else(|| db.get_setting("proxy").filter(|p| !p.trim().is_empty()))

@@ -10,7 +10,7 @@
 //! - **Lifecycle:** create/destroy run on the main thread via `run_on_main_thread` (GTK requires
 //!   it). Callers must invoke `create` from a spawned task, not from `setup()` — the event loop
 //!   isn't pumping yet during setup and the closure would never run.
-//! - **Harness HTML:** served over the app's own `limusicharness://` URI scheme (registered in
+//! - **Harness HTML:** served over the app's own `raagaharness://` URI scheme (registered in
 //!   `lib.rs`), NOT a `data:` URL. Tauri hands a `data:` URL to wry as a plain URL, and on Windows
 //!   wry navigates to it — which Chromium refuses for a top-level document, so WebView2 sat on the
 //!   initial `about:blank` forever and the readiness probe (then `location.protocol==='data:'`)
@@ -18,7 +18,7 @@
 //!   so WEB_REMIX/TVHTML5/WEB_CREATOR produced nothing and the user's own uploads (the one thing
 //!   with no anonymous chain behind it) failed with "sign-in needed". Issues #71/#128.
 //!   A registered scheme is a real document on all three engines (wry maps it to
-//!   `http://limusicharness.localhost` on Windows), so page-load fires, the origin is not opaque,
+//!   `http://raagaharness.localhost` on Windows), so page-load fires, the origin is not opaque,
 //!   and Tauri does not rewrite the response the way it rewrites a `data:` URL to inject CSP.
 //!   **Keep the app CSP `null`.** BotGuard is gone from here, but the injected player.js still
 //!   needs unhindered inline script; a policy as ordinary as `default-src 'self'` would block the
@@ -55,8 +55,8 @@ pub struct Bridge {
 }
 
 /// URI scheme the harness document is served over. Registered on the Tauri builder in `lib.rs`
-/// (see [`HARNESS_HTML`]); wry rewrites it to `http://limusicharness.localhost` on Windows.
-pub const SCHEME: &str = "limusicharness";
+/// (see [`HARNESS_HTML`]); wry rewrites it to `http://raagaharness.localhost` on Windows.
+pub const SCHEME: &str = "raagaharness";
 
 /// The harness document. Everything the bridge needs lives in this inline script rather than in an
 /// `initialization_script`, because an init script is registered *after* the engine has already

@@ -27,7 +27,7 @@ use tokio::sync::Mutex;
 use crate::webview::Bridge;
 use fetcher::PlayerJsFetcher;
 
-const CIPHER_LABEL: &str = "limusic-cipher";
+const CIPHER_LABEL: &str = "raaga-cipher";
 const CALL_TIMEOUT: Duration = Duration::from_secs(5);
 const LOAD_TIMEOUT: Duration = Duration::from_secs(15);
 /// How long an "this player has no config" verdict stands before it is re-checked.

@@ -1,59 +1,70 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/oxanium';
-@import '@fontsource-variable/ibm-plex-sans';
+@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/plus-jakarta-sans';
 
-/* Limusic app theme (default, dark), tokens copied from ui/src/routes/layout.css .dark block.
-   The site is dark-only. */
+/* ── Raaga — "Ivory Editorial" ────────────────────────────────────
+   A boutique-record-label sleeve, not another dark SaaS page: warm
+   ivory paper, deep espresso ink, brushed-gold hairlines, crimson used
+   only as a punch accent. High-contrast Fraunces display serif over a
+   Jakarta body, printed-paper film grain. Light-only. */
 :root {
-  --background: oklch(0.145 0.008 326);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.212 0.019 322.12);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.212 0.019 322.12);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.455 0.188 13.697);
-  --primary-foreground: oklch(0.969 0.015 12.422);
-  --secondary: oklch(0.274 0.006 286.033);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.263 0.024 320.12);
-  --muted-foreground: oklch(0.711 0.019 323.02);
-  --accent: oklch(0.455 0.188 13.697);
-  --accent-foreground: oklch(0.969 0.015 12.422);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.542 0.034 322.5);
-  --radius: 0.45rem;
-  /* the brighter crimson the app uses for active/play accents */
-  --primary-bright: oklch(0.645 0.246 16.439);
+  --background: oklch(0.966 0.012 85);
+  --foreground: oklch(0.235 0.028 46);
+
+  --surface: oklch(0.945 0.015 83);
+  --surface-2: oklch(0.912 0.018 82);
+  --paper: oklch(0.992 0.006 90);
+
+  --ink: oklch(0.19 0.024 44);
+  --card: var(--paper);
+  --card-foreground: var(--foreground);
+
+  --muted: oklch(0.9 0.016 82);
+  --muted-foreground: oklch(0.47 0.03 48);
+
+  --primary: oklch(0.53 0.204 21);
+  --primary-foreground: oklch(0.98 0.012 60);
+  --primary-bright: oklch(0.585 0.228 22);
+
+  --gold: oklch(0.66 0.108 76);
+  --gold-soft: oklch(0.78 0.09 80);
+
+  --border: oklch(0.235 0.028 46 / 12%);
+  --hairline-gold: oklch(0.6 0.1 76 / 42%);
+  --ring: oklch(0.53 0.204 21 / 55%);
+
+  --radius: 1.6rem;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-bright: var(--primary-bright);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
   --color-border: var(--border);
-  --color-input: var(--input);
   --color-ring: var(--ring);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --font-sans: 'Oxanium Variable', sans-serif;
-  --font-heading: 'IBM Plex Sans Variable', sans-serif;
+
+  --radius-sm: calc(var(--radius) - 1.1rem);
+  --radius-md: calc(var(--radius) - 0.7rem);
+  --radius-lg: calc(var(--radius) - 0.35rem);
+  --radius-xl: var(--radius);
+  --radius-2xl: calc(var(--radius) + 0.6rem);
+
+  --font-sans: 'Plus Jakarta Sans Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
+
+  --ease-fluid: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 @layer base {
@@ -62,17 +73,62 @@
   }
   html {
     scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    font-variant-numeric: tabular-nums;
+    background-image:
+      radial-gradient(115% 80% at 88% -6%, oklch(0.66 0.108 76 / 0.12), transparent 55%),
+      radial-gradient(90% 60% at 6% 2%, oklch(0.78 0.09 80 / 0.1), transparent 52%);
+    background-attachment: fixed;
   }
-  button {
-    cursor: pointer;
+  ::selection {
+    background: var(--color-primary-bright);
+    color: var(--color-primary-foreground);
+  }
+  button { cursor: pointer; }
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  .font-display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-variation-settings: 'opsz' 144, 'SOFT' 40, 'WONK' 0;
+    letter-spacing: -0.02em;
+    line-height: 0.97;
   }
 }
 
+/* Printed-paper film grain — multiply keeps it as fibre, not haze. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Brushed-gold hairline for frames, chips and the nav pill. */
+.gold-hairline {
+  box-shadow:
+    inset 0 0 0 1px var(--hairline-gold),
+    inset 0 1px 0 0 oklch(1 0 0 / 0.5);
+}
+
+/* Marquee ribbon */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track { animation: marquee 36s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  html { scroll-behavior: auto; }
+  .marquee-track { animation: none; }
 }

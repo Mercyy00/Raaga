@@ -11,7 +11,7 @@ name: Windows release binaries
 #   Actions ▸ Windows release binaries ▸ Run workflow ▸ tag = v0.1.4
 #
 # Requires repo secrets (Settings ▸ Secrets and variables ▸ Actions):
-#   TAURI_SIGNING_PRIVATE_KEY           contents of ~/.tauri/limusic.key
+#   TAURI_SIGNING_PRIVATE_KEY           contents of ~/.tauri/raaga.key
 #   TAURI_SIGNING_PRIVATE_KEY_PASSWORD  empty string (the key has no password)
 #   LASTFM_API_KEY / LASTFM_API_SECRET  Last.fm credentials (optional — warn-only if absent)
 # Without the signing pair the bundler emits no .sig and this job fails loudly rather than
@@ -165,7 +165,7 @@ jobs:
       #                         ships pregenerated bindings and just emits `cargo:rustc-link-lib`)
       #   rust-lld              LLD instead of MSVC's link.exe. Cargo is the bulk of this job, and
       #                         with `codegen-units = 1` + thin LTO most of that is the codegen and
-      #                         link of limusic-app itself. The Linux job took its release build
+      #                         link of raaga-app itself. The Linux job took its release build
       #                         from 6m56 to 3m33 by moving to mold; this is the same lever on the
       #                         platform that has no mold. rust-lld ships inside the toolchain, so
       #                         there is nothing to install and nothing to pin.
@@ -242,7 +242,7 @@ jobs:
           LASTFM_API_SECRET: ${{ secrets.LASTFM_API_SECRET }}
         run: |
           if [ -n "$LASTFM_API_KEY" ] && [ -n "$LASTFM_API_SECRET" ]; then
-            printf 'LIMUSIC_LASTFM_API_KEY=%s\nLIMUSIC_LASTFM_API_SECRET=%s\n' \
+            printf 'RAAGA_LASTFM_API_KEY=%s\nRAAGA_LASTFM_API_SECRET=%s\n' \
               "$LASTFM_API_KEY" "$LASTFM_API_SECRET" > src-tauri/lastfm.keys
             echo "lastfm.keys written"
           else
@@ -285,7 +285,7 @@ jobs:
         if: ${{ inputs.dry_run }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: limusic-dry-run-${{ steps.rel.outputs.tag }}
+          name: raaga-dry-run-${{ steps.rel.outputs.tag }}
           path: |
             target/release/bundle/nsis/*-setup.exe
             target/release/bundle/nsis/*.sig
@@ -376,9 +376,9 @@ jobs:
           RELEASE_ID="$(retry 3 gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" --jq .id)"
           [ -n "$RELEASE_ID" ] || { echo "::error::no release found for $TAG"; exit 1; }
 
-          EXE="target/release/bundle/nsis/limusic_${VERSION}_x64-setup.exe"
+          EXE="target/release/bundle/nsis/raaga_${VERSION}_x64-setup.exe"
           SIG="$EXE.sig"
-          MSI="$(ls target/release/bundle/msi/limusic_${VERSION}_*.msi 2>/dev/null | head -1 || true)"
+          MSI="$(ls target/release/bundle/msi/raaga_${VERSION}_*.msi 2>/dev/null | head -1 || true)"
 
           if [ ! -f "$EXE" ]; then
             echo "::error::expected installer not found: $EXE"; find target/release/bundle -maxdepth 2; exit 1

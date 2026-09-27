@@ -36,7 +36,7 @@ buries the real change and makes review much harder.
 
 ```bash
 cargo test --all                                        # everything, no network
-cargo test -p limusic-app --lib -- --ignored --nocapture   # hits live lyrics APIs
+cargo test -p raaga-app --lib -- --ignored --nocapture   # hits live lyrics APIs
 cd ui && pnpm check                                     # svelte-check + types
 ```
 
@@ -81,11 +81,10 @@ setup.
 Translations live in `ui/src/lib/locales/` as nested JSON, one file per language,
 with `en.json` as the source of truth.
 
-**Use [Weblate](https://hosted.weblate.org/projects/limusic/) rather than editing
-the JSON by hand.** It shows you the English original beside each string, flags
-translations that went stale when the English changed, and opens the pull request
-for you. Hand-edited JSON tends to drift out of sync with `en.json` within a
-release or two.
+**Edit the JSON files directly** in `ui/src/lib/locales/` and open a pull
+request. Keep an eye on `en.json` as you go: it is the source of truth, so a
+translation can drift out of sync with it within a release or two if the English
+changed and the translation did not.
 
 Two things to know:
 
@@ -95,9 +94,9 @@ Two things to know:
 - A missing key is not a bug. Anything a catalog does not have falls back to
   English at runtime, so a partial translation is safe to ship.
 
-Adding a new language: Weblate creates the JSON file, then import it in
-`ui/src/lib/locales/index.ts` and add the locale to `LocaleId`, `LOCALES` and
-`translations` there so the picker offers it.
+Adding a new language: copy `en.json` to `<lang>.json`, translate its values,
+then import it in `ui/src/lib/locales/index.ts` and add the locale to `LocaleId`,
+`LOCALES` and `translations` there so the picker offers it.
 
 ## House conventions
 

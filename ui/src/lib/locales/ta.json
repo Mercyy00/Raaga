@@ -247,8 +247,7 @@
 			"storage": "",
 			"updates": "",
 			"report": "",
-			"whats_new": "",
-			"support": ""
+			"whats_new": ""
 		},
 		"general": {
 			"language": "",
@@ -363,10 +362,7 @@
 			"diagnostics_saved": "",
 			"report_issue": "",
 			"report_issue_hint": "",
-			"report_issue_button": "",
-			"kofi": "",
-			"kofi_hint": "",
-			"kofi_button": ""
+			"report_issue_button": ""
 		}
 	},
 	"dialogs": {

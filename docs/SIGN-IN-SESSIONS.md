@@ -1,15 +1,15 @@
 # Sign-in sessions: where the data lives
 
-Everything below is per-OS under Tauri's app-data dir for identifier `com.limusic.desktop`
+Everything below is per-OS under Tauri's app-data dir for identifier `com.raaga.desktop`
 (`tauri.conf.json`), created in `lib.rs` via `app.path().app_data_dir()`:
 
 | OS | Directory |
 |---|---|
-| Windows | `%APPDATA%\com.limusic.desktop\` |
-| Linux | `~/.local/share/com.limusic.desktop/` |
-| macOS | `~/Library/Application Support/com.limusic.desktop/` |
+| Windows | `%APPDATA%\com.raaga.desktop\` |
+| Linux | `~/.local/share/com.raaga.desktop/` |
+| macOS | `~/Library/Application Support/com.raaga.desktop/` |
 
-## 1. SQLite: `limusic.sqlite`
+## 1. SQLite: `raaga.sqlite`
 
 The canonical store of your saved Google accounts and the active session. Schema: `src-tauri/src/db.rs`.
 
@@ -48,12 +48,12 @@ Databases from before multi-account are migrated once on open (`Db::open`): the 
 The sign-in webview (`src-tauri/src/session.rs`) is persistent (non-incognito) on purpose. Its
 cookies live in the OS webview profile data *next to* the app data dir, not in the SQLite file:
 
-- **Windows (WebView2):** user-data folder under `%LOCALAPPDATA%\com.limusic.desktop\EBWebView\`
-- **Linux (WebKitGTK):** `~/.local/share/com.limusic.desktop/` webkit data (or XDG cache)
-- **macOS (WKWebView):** inside `~/Library/Application Support/com.limusic.desktop/` WebKit data
+- **Windows (WebView2):** user-data folder under `%LOCALAPPDATA%\com.raaga.desktop\EBWebView\`
+- **Linux (WebKitGTK):** `~/.local/share/com.raaga.desktop/` webkit data (or XDG cache)
+- **macOS (WKWebView):** inside `~/Library/Application Support/com.raaga.desktop/` WebKit data
 
-This is why a re-login is one click with no password/paste, and why deleting `limusic.sqlite`
-alone does not sign the webview out of Google. Limusic never reads this store as state:
+This is why a re-login is one click with no password/paste, and why deleting `raaga.sqlite`
+alone does not sign the webview out of Google. Raaga never reads this store as state:
 `session.rs` copies the youtube-domain cookies out of it into a `Cookie` header and stores that
 copy in SQLite.
 

@@ -830,7 +830,7 @@ mod tests {
 
     #[test]
     fn a_file_with_no_album_never_borrows_artwork() {
-        let dir = std::env::temp_dir().join("limusic-cover-test");
+        let dir = std::env::temp_dir().join("raaga-cover-test");
         std::fs::create_dir_all(&dir).unwrap();
         std::fs::write(dir.join("cover.jpg"), b"not really a jpeg").unwrap();
         let covers = dir.join("covers");
@@ -866,7 +866,7 @@ mod tests {
     #[test]
     fn a_scan_reports_what_left_the_disk() {
         let db = Db::open(std::path::Path::new(":memory:")).unwrap();
-        let dir = std::env::temp_dir().join("limusic-local-scan-test");
+        let dir = std::env::temp_dir().join("raaga-local-scan-test");
         std::fs::create_dir_all(&dir).unwrap();
         add_folder(&db, dir.to_string_lossy().to_string());
         // Two tracks the library "knows" about; neither file exists any more.

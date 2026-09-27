@@ -17,7 +17,7 @@ type NestedKeyOf<ObjectType extends object> = {
 
 export type TranslationKey = NestedKeyOf<Translations>;
 
-const LOCALE_STORAGE_KEY = 'limusic_locale';
+const LOCALE_STORAGE_KEY = 'raaga_locale';
 
 /**
  * The saved language, else the system one if we have a catalog for it, else English.
@@ -86,7 +86,7 @@ function getNestedValue(obj: unknown, path: string): unknown {
  */
 export function t(key: TranslationKey, params?: Record<string, string | number>): string {
 	let str = getNestedValue(translations[activeLocale], key);
-	// Weblate writes an untranslated string as "", so empty counts as missing: a half-finished
+	// Translators leave an untranslated string as "", so empty counts as missing: a half-finished
 	// catalog must render English, not a blank label.
 	if (typeof str !== 'string' || str === '') str = getNestedValue(translations.en, key);
 	if (typeof str !== 'string') return key;

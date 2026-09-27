@@ -12,7 +12,6 @@
 		KeyboardIcon,
 		Cancel01Icon as RemoveIcon,
 		Copy01Icon,
-		Coffee02Icon,
 		DiscordIcon
 	} from '@hugeicons/core-free-icons';
 	import { Button } from '$lib/components/ui/button';
@@ -203,6 +202,26 @@
 	// Result of the last "Check for updates" click — shown inline (a toast renders behind the modal).
 	let updateResult = $state<{ message: string; error: boolean } | null>(null);
 
+	// A little dedication — live count of time together since 7 September 2024. Ticks only while the
+	// About tab is open so it costs nothing the rest of the time.
+	const TOGETHER_START = new Date('2024-09-07T00:00:00').getTime();
+	let togetherNow = $state(Date.now());
+	$effect(() => {
+		if (!ui.settingsOpen || tab !== 'about') return;
+		togetherNow = Date.now();
+		const id = setInterval(() => (togetherNow = Date.now()), 1000);
+		return () => clearInterval(id);
+	});
+	const together = $derived.by(() => {
+		const s = Math.max(0, Math.floor((togetherNow - TOGETHER_START) / 1000));
+		return {
+			days: Math.floor(s / 86400),
+			hours: Math.floor((s % 86400) / 3600),
+			mins: Math.floor((s % 3600) / 60),
+			secs: s % 60
+		};
+	});
+
 	// (Re)load whenever the modal opens, so it reflects the current persisted values. Also clear the
 	// stale update-check result so re-opening the modal doesn't show it until pressed again.
 	// untrack: this reads and writes theme state, and `registerFontFiles` can rewrite it again when
@@ -252,7 +271,7 @@
 		diagError = '';
 		try {
 			const path = await save({
-				defaultPath: `limusic-diagnostics-${new Date().toISOString().slice(0, 10)}.txt`,
+				defaultPath: `raaga-diagnostics-${new Date().toISOString().slice(0, 10)}.txt`,
 				filters: [{ name: 'Text', extensions: ['txt'] }]
 			});
 			if (!path) return;
@@ -276,7 +295,7 @@
 				version,
 				system
 			});
-			await api.openExternal(`https://github.com/SimoHypers/limusic/issues/new?${q}`);
+			await api.openExternal(`https://github.com/Mercyy00/Raaga/issues/new?${q}`);
 		} catch (e) {
 			diagError = String(e);
 		}
@@ -646,7 +665,7 @@
 								{@render row({
 									title: t('settings.themes.background_color'),
 									desc:
-										theme.id === 'default'
+										theme.id === 'crimson-premiere'
 											? t('settings.themes.tint_hint')
 											: t('settings.themes.tint_palette_hint', { theme: currentTheme.label }),
 									control: tintSlider
@@ -868,7 +887,7 @@
 							class="mb-7 rounded-xl border bg-gradient-to-br from-primary/8 to-transparent px-4 py-4"
 						>
 							<div class="flex items-center gap-2">
-								<span class="font-heading text-lg font-bold">Limusic</span>
+								<span class="font-heading text-lg font-bold">Raaga</span>
 								{#if version}
 									<span
 										class="rounded-full bg-primary/12 px-2 py-0.5 text-[11px] font-semibold text-primary"
@@ -882,17 +901,29 @@
 							</p>
 						</div>
 
-						<section class={GROUP}>
-							<h3 class={LABEL}>{t('settings.sections.support')}</h3>
-							<div class={CARD}>
-								{@render row({
-									title: t('settings.about.kofi'),
-									desc: t('settings.about.kofi_hint'),
-									control: kofiButton,
-									tall: true
-								})}
+						<div
+							class="mb-7 rounded-xl border border-primary/25 bg-gradient-to-br from-primary/10 to-transparent px-4 py-4"
+						>
+							<p class="text-sm font-semibold">
+								Made with love for Divyanshi <span class="text-primary">&#9829;</span>
+							</p>
+							<p class="mt-1 max-w-prose text-xs leading-relaxed text-muted-foreground">
+								For my Divu, my Divya &mdash; built just for you, by your Jay.
+							</p>
+							<div class="mt-3 flex items-baseline gap-1.5 font-heading tabular-nums">
+								<span class="text-2xl font-bold text-primary">{together.days}</span>
+								<span class="text-xs text-muted-foreground">days</span>
+								<span class="ml-1.5 text-lg font-semibold">{together.hours}</span>
+								<span class="text-xs text-muted-foreground">h</span>
+								<span class="text-lg font-semibold">{together.mins}</span>
+								<span class="text-xs text-muted-foreground">m</span>
+								<span class="text-lg font-semibold">{together.secs}</span>
+								<span class="text-xs text-muted-foreground">s</span>
 							</div>
-						</section>
+							<p class="mt-1 text-[11px] text-muted-foreground">
+								together since 7 September 2024
+							</p>
+						</div>
 
 						<section class={GROUP}>
 							<h3 class={LABEL}>{t('settings.sections.updates')}</h3>
@@ -1090,7 +1121,7 @@
 		aria-label={t('a11y.background_tint')}
 		max={360}
 		step={1}
-		disabled={theme.id !== 'default'}
+		disabled={theme.id !== 'crimson-premiere'}
 		value={effective.hue}
 		onValueChange={(hue) => setCustom({ hue })}
 		class="w-44 shrink-0 [&_[data-slot=slider-range]]:bg-transparent [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)]"
@@ -1248,7 +1279,7 @@
 
 {#snippet clientList()}
 	<p class="mb-3 max-w-prose text-xs leading-relaxed text-muted-foreground">
-		{t('settings.general.stream_clients_hint', { var: 'LIMUSIC_DISABLED_CLIENTS' })}
+		{t('settings.general.stream_clients_hint', { var: 'RAAGA_DISABLED_CLIENTS' })}
 	</p>
 	<div class="flex flex-col gap-2">
 		{#each clients as name (name)}
@@ -1336,13 +1367,6 @@
 
 {#snippet reportButton()}
 	<Button size="sm" onclick={openBugForm}>{t('settings.about.report_issue_button')}</Button>
-{/snippet}
-
-{#snippet kofiButton()}
-	<Button variant="secondary" size="sm" onclick={() => api.openExternal('https://ko-fi.com/simohypers')}>
-		<HugeiconsIcon icon={Coffee02Icon} size={15} strokeWidth={1.8} />
-		{t('settings.about.kofi_button')}
-	</Button>
 {/snippet}
 
 {#snippet diagAlert()}

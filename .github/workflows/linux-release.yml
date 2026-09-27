@@ -217,7 +217,7 @@ jobs:
           LASTFM_API_SECRET: ${{ secrets.LASTFM_API_SECRET }}
         run: |
           if [ -n "$LASTFM_API_KEY" ] && [ -n "$LASTFM_API_SECRET" ]; then
-            printf 'LIMUSIC_LASTFM_API_KEY=%s\nLIMUSIC_LASTFM_API_SECRET=%s\n' \
+            printf 'RAAGA_LASTFM_API_KEY=%s\nRAAGA_LASTFM_API_SECRET=%s\n' \
               "$LASTFM_API_KEY" "$LASTFM_API_SECRET" > src-tauri/lastfm.keys
             echo "lastfm.keys written"
           else
@@ -261,7 +261,7 @@ jobs:
       - name: Check nothing is missing from the bundle
         run: |
           set -euo pipefail
-          APPDIR=target/release/bundle/appimage/limusic.AppDir
+          APPDIR=target/release/bundle/appimage/raaga.AppDir
           HOST_BASELINE="ld-linux-x86-64.so.2 libc.so.6 libm.so.6 libresolv.so.2 libgcc_s.so.1
             libstdc++.so.6 libGL.so.1 libEGL.so.1 libGLX.so.0 libGLdispatch.so.0 libOpenGL.so.0
             libdrm.so.2 libgbm.so.1 libwayland-client.so.0 libX11.so.6
@@ -310,7 +310,7 @@ jobs:
       - name: Verify it loads and runs on foreign distros
         run: |
           set -euo pipefail
-          APPDIR="$PWD/target/release/bundle/appimage/limusic.AppDir"
+          APPDIR="$PWD/target/release/bundle/appimage/raaga.AppDir"
           CHECK="$PWD/scripts/appdir-foreign-check.sh"
           IMAGES="debian:sid archlinux:latest opensuse/tumbleweed"
 
@@ -341,7 +341,7 @@ jobs:
         run: |
           set -euo pipefail
           FLOOR=2.39   # keep in sync with `runs-on` above
-          APPDIR=target/release/bundle/appimage/limusic.AppDir
+          APPDIR=target/release/bundle/appimage/raaga.AppDir
           [ -d "$APPDIR" ] || { echo "::error::no AppDir at $APPDIR — did the bundler change its layout?"; exit 1; }
           # `|| true`: objdump exits nonzero on the non-ELF files that live under usr/lib (module
           # caches, pkgconfig, …), which under pipefail would fail the step for no reason.
@@ -368,14 +368,14 @@ jobs:
         continue-on-error: true
         run: |
           set -euo pipefail
-          DEB="$(ls target/release/bundle/deb/limusic_${VERSION}_*.deb | head -1)"
-          docker run --rm -v "$PWD/$DEB:/limusic.deb:ro" ubuntu:24.04 bash -c '
+          DEB="$(ls target/release/bundle/deb/raaga_${VERSION}_*.deb | head -1)"
+          docker run --rm -v "$PWD/$DEB:/raaga.deb:ro" ubuntu:24.04 bash -c '
             set -eu
             export DEBIAN_FRONTEND=noninteractive
             apt-get update -qq
-            apt-get install -y --no-install-recommends /limusic.deb
-            BIN="$(dpkg -L limusic | grep "^/usr/bin/" | head -1)"
-            echo "installed $BIN, declared: $(dpkg-query -f "\${Depends}" -W limusic)"
+            apt-get install -y --no-install-recommends /raaga.deb
+            BIN="$(dpkg -L raaga | grep "^/usr/bin/" | head -1)"
+            echo "installed $BIN, declared: $(dpkg-query -f "\${Depends}" -W raaga)"
             if ldd "$BIN" | grep "not found"; then
               echo "the deb declares nothing that provides the libraries above"
               exit 1
@@ -470,7 +470,7 @@ jobs:
           RELEASE_ID="$(retry 3 gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" --jq .id)"
           [ -n "$RELEASE_ID" ] || { echo "::error::no release found for $TAG"; exit 1; }
 
-          APPIMAGE="$(ls target/release/bundle/appimage/limusic_${VERSION}_*.AppImage 2>/dev/null | head -1 || true)"
+          APPIMAGE="$(ls target/release/bundle/appimage/raaga_${VERSION}_*.AppImage 2>/dev/null | head -1 || true)"
           SIG="$APPIMAGE.sig"
 
           if [ -z "$APPIMAGE" ] || [ ! -f "$APPIMAGE" ]; then
@@ -486,7 +486,7 @@ jobs:
           # support, so there is nothing for a signature to be checked by. Debian users update by
           # downloading the next one. Skipped entirely if it failed its check, which is a warning
           # rather than an error: the release is complete without it.
-          DEB="$(ls target/release/bundle/deb/limusic_${VERSION}_*.deb 2>/dev/null | head -1 || true)"
+          DEB="$(ls target/release/bundle/deb/raaga_${VERSION}_*.deb 2>/dev/null | head -1 || true)"
           if [ "${{ steps.deb_check.outcome }}" != "success" ]; then
             echo "::warning::the deb failed its install check and was NOT attached — fix bundle.linux.deb.depends and re-dispatch"
           elif [ -z "$DEB" ]; then

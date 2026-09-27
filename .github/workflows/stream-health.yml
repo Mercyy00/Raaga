@@ -24,7 +24,7 @@ name: Stream health
 # NEVER BLOCKS A MERGE. There is no `pull_request` or `push` trigger on purpose: a third party's
 # availability must not be able to stop work landing.
 #
-# ANONYMOUS ON PURPOSE. No `LIMUSIC_COOKIE` and no account secret, ever. The cookie-gated tests in
+# ANONYMOUS ON PURPOSE. No `RAAGA_COOKIE` and no account secret, ever. The cookie-gated tests in
 # the suite are `#[ignore]`d and self-skip without one. This repo is public and a nightly job
 # holding a YouTube session cookie is a risk with no matching benefit.
 #
