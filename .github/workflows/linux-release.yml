@@ -1,4 +1,5 @@
 name: Linux release binaries
+# Manually dispatched from Actions ▸ Linux release binaries ▸ Run workflow (tag = vX.Y.Z).
 
 # Builds and signs the Linux AppImage and builds the .deb for a release that ALREADY EXISTS,
 # attaches both, adds the `linux-x86_64` entry to latest.json, and finally marks the release

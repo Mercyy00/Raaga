@@ -1,4 +1,5 @@
 name: macOS release binaries
+# Manually dispatched from Actions ▸ macOS release binaries ▸ Run workflow (tag = vX.Y.Z).
 
 # Builds, bundles and signs the macOS app for a release that ALREADY EXISTS, attaches the .dmg and
 # the updater tarball, and adds the `darwin-aarch64` entry to latest.json so Mac installs

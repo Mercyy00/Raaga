@@ -1,4 +1,5 @@
 name: Windows release binaries
+# Manually dispatched from Actions ▸ Windows release binaries ▸ Run workflow (tag = vX.Y.Z).
 
 # Builds and signs the Windows installers for a release that ALREADY EXISTS, attaches them to it,
 # and adds the `windows-x86_64` entry to latest.json so Windows installs get auto-updates.
