@@ -331,9 +331,9 @@ function Features() {
 
       <div className="mt-14 grid gap-4 lg:grid-cols-12">
         {FEATURES.map((f, i) => (
-          <AnimatedContent key={f.title} distance={44} duration={0.8} delay={(i % 3) * 0.08} threshold={0.12}>
+          <AnimatedContent key={f.title} className={`${SPANS[i]} h-full`} distance={44} duration={0.8} delay={(i % 3) * 0.08} threshold={0.12}>
             <article
-              className={`group relative flex h-full flex-col rounded-[1.7rem] bg-card p-1.5 gold-hairline ${SPANS[i]} ${EASE} hover:-translate-y-1`}
+              className={`group relative flex h-full flex-col rounded-[1.7rem] bg-card p-1.5 gold-hairline ${EASE} hover:-translate-y-1`}
             >
               <div className="flex h-full flex-col rounded-[1.35rem] bg-paper p-6 shadow-[inset_0_1px_0_0_oklch(1_0_0/0.6)]">
                 <span className={`mb-5 grid size-11 place-items-center rounded-xl bg-surface-2 text-primary group-hover:bg-primary group-hover:text-primary-foreground ${EASE}`}>
