@@ -119,6 +119,15 @@ bundle_deps_of() {
     [ -e "$path" ] || continue
     cp -L "$path" "$APPDIR/usr/lib/$name"
     echo "==> bundled $name (dependency of $(basename "$of"))"
+    # Recurse: a copied library's own DT_NEEDED has to travel too, or we just move the missing-object
+    # error one library down. The pulseaudio GStreamer plugin pulls in libpulse.so.0 as a direct dep,
+    # and libpulse in turn needs libpipewire-0.3.so.0 — without recursion that second level dangled and
+    # failed the bundle audit on Ubuntu noble. libpulse and libpipewire come from the same build host,
+    # so they are a matched pair (this is not the pipewire-jack shim mismatch of defect 2). The copy
+    # above runs before the recursive call, so a dependency cycle terminates on the "already have it"
+    # guard rather than looping, and HOST_BASELINE still keeps the gnutls stack and the graphics /
+    # wayland libraries off the default path no matter how deep the recursion goes.
+    bundle_deps_of "$APPDIR/usr/lib/$name"
   done < <(ldd "$of" | awk '/=> \//{print $1, $3}')
 }
 

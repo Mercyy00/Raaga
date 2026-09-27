@@ -259,6 +259,12 @@ jobs:
       # inside the AppDir or be a library any Linux desktop is guaranteed to have. The allowlist
       # below is the calibrated set for this app; if a new name shows up, decide deliberately
       # whether to bundle it or add it here — don't widen it to make a build pass.
+      #
+      # libgmp.so.10 lives on the last line for the same reason it is in fix-appdir-tls.sh's own
+      # HOST_BASELINE: it is the bottom of the gnutls/nettle crypto chain. The rest of that chain
+      # travels in gnutls-fallback/ (below), but libgmp is only ever a dependency-of-a-dependency, so
+      # it never lands in usr/lib to be moved there — and it is present on every mainstream distro
+      # (gnutls/apt/gpg all pull it in). Keep this line in step with that script's gnutls stack.
       - name: Check nothing is missing from the bundle
         run: |
           set -euo pipefail
@@ -268,7 +274,7 @@ jobs:
             libdrm.so.2 libgbm.so.1 libwayland-client.so.0 libX11.so.6
             libX11-xcb.so.1 libxcb.so.1 libxcb-dri3.so.0 libexpat.so.1 libfontconfig.so.1
             libfreetype.so.6 libharfbuzz.so.0 libfribidi.so.0 libz.so.1 libasound.so.2
-            libusb-1.0.so.0 libcom_err.so.2 libgpg-error.so.0"
+            libusb-1.0.so.0 libcom_err.so.2 libgpg-error.so.0 libgmp.so.10"
           for f in "$APPDIR"/usr/lib/*.so* "$APPDIR"/usr/lib64/*.so* \
                    "$APPDIR"/usr/lib/gstreamer-1.0/*.so "$APPDIR"/usr/bin/*; do
             [ -e "$f" ] || continue
